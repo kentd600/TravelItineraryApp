@@ -1,0 +1,14 @@
+.AppNav {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  padding: 0 50px;
+}
+
+.AppNav * {
+  margin: 0 10px;
+}
+
+.AppNav__auth_link {
+  margin-left: auto;
+}

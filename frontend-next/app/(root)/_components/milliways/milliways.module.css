@@ -1,0 +1,84 @@
+:root {
+  --barHeight: 100px;
+  --lightLime: #d0f0c0;
+  --lime: #b2ec5d;
+  --blue: #6082b6;
+  --space: #4a646c;
+  --deepSpace: #2a3439;
+  --compText: #6C524A;
+}
+
+.layoutContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+  width: 100%;
+  font-size: x-large;
+}
+
+.navContainer {
+  width: 100%;
+  height: var(--barHeight);
+}
+
+.nav {
+  background-color: var(--lightLime);
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.navLink {
+  background-color: var(--lime);
+  height: var(--barHeight);
+  padding: 0 1em;
+  margin: 0;
+  line-height: var(--barHeight);
+  text-decoration: none;
+  color: var(--compText);
+}
+
+.authContainer {
+  background: var(--lime);
+  display: flex;
+  flex-direction: column;
+  height: var(--barHeight);
+  width: 100px;
+}
+
+.authPopOut {
+  background: var(--lime);
+  position: absolute;
+  top: 100px;
+  width: 100%;
+  height: 0;
+  border-radius: 5px 0 5px 5px;
+  overflow: hidden;
+}
+
+.authForm {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 10px;
+  color: var(--compText);
+}
+
+.milliButton {
+  border-radius: 0;
+  background: var(--lime);
+  color: var(--compText);
+}
+
+.authToggle {
+  height: var(--barHeight);
+  width: 100px;
+  border: none;
+}
+
+.loginButton {
+  border: 2px solid var(--space);
+  height: 45px;
+  margin-top: 5px;
+}
