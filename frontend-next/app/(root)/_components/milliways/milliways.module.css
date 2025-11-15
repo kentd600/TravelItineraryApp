@@ -1,5 +1,4 @@
 :root {
-  --barHeight: 100px;
   --lightLime: #d0f0c0;
   --lime: #b2ec5d;
   --blue: #6082b6;
@@ -14,11 +13,12 @@
   flex-flow: row nowrap;
   width: 100%;
   font-size: x-large;
+  flex: 0 1 8%;
 }
 
 .navContainer {
   width: 100%;
-  height: var(--barHeight);
+  height: 100%;
 }
 
 .nav {
@@ -32,10 +32,10 @@
 
 .navLink {
   background-color: var(--lime);
-  height: var(--barHeight);
+  height: 100%;
   padding: 0 1em;
   margin: 0;
-  line-height: var(--barHeight);
+  line-height: 100%;
   text-decoration: none;
   color: var(--compText);
 }
@@ -44,7 +44,7 @@
   background: var(--lime);
   display: flex;
   flex-direction: column;
-  height: var(--barHeight);
+  height: 100%;
   width: 100px;
 }
 
@@ -56,6 +56,7 @@
   height: 0;
   border-radius: 5px 0 5px 5px;
   overflow: hidden;
+  z-index: 1;
 }
 
 .authForm {
@@ -72,7 +73,7 @@
 }
 
 .authToggle {
-  height: var(--barHeight);
+  height: 100%;
   width: 100px;
   border: none;
 }
