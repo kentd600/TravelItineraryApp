@@ -5,16 +5,16 @@ import styles from './milliways.module.css';
 import MilliwaysAuth from "./auth";
 import MilliwaysNav from "./nav";
 
-import { Barrio } from 'next/font/google';
+import { Story_Script } from 'next/font/google';
 import { classNames } from '@/app/_utility/utilityFuncs';
 
-const barrio = Barrio({
+const font = Story_Script({
   weight: "400"
 })
 
 export default function MilliwaysLayout() {
   return (
-    <div className={classNames(styles.layoutContainer, barrio.className)}>
+    <div className={classNames(styles.layoutContainer, font.className)}>
       <MilliwaysNav />
       <MilliwaysAuth />
     </div>
