@@ -32,8 +32,8 @@ export class UserModel {
     this.model = mongoose.model<MongooseDocument<User>>('wanderer_users', this.schema);
   }
 
-  async findUser() {
-    const result = await this.model.findOne({ email: 'test@test.com' });
+  async findUser(username: string) {
+    const result = await this.model.findOne({ username });
     return result;
   }
 

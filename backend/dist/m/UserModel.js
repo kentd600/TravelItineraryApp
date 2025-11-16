@@ -15,8 +15,8 @@ export class UserModel {
         this.schema = new mongoose.Schema(userSchema);
         this.model = mongoose.model('wanderer_users', this.schema);
     }
-    async findUser() {
-        const result = await this.model.findOne({ email: 'test@test.com' });
+    async findUser(username) {
+        const result = await this.model.findOne({ username });
         return result;
     }
     async addUser(input) {

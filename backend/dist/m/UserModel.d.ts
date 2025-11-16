@@ -14,7 +14,7 @@ export declare class UserModel {
     schema: mongoose.Schema;
     model: mongoose.Model<MongooseDocument<User>>;
     constructor();
-    findUser(): Promise<(mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<unknown, any, any, Record<string, any>, {}> & Required<{
+    findUser(username: string): Promise<(mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<unknown, any, any, Record<string, any>, {}> & Required<{
         _id: unknown;
     }> & {
         __v: number;

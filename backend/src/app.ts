@@ -1,4 +1,4 @@
-import express, { type Request, type Response, type Application } from "express";
+import express, { type Request, type Response, type Application, type NextFunction } from "express";
 import { dbInstance } from "./m/M.js";
 import userRouter from "./routes/User.js";
 import cookieParser from "cookie-parser";
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get('/', async (req: Request, res: Response) => {
-  const result = await dbInstance.userModel.findUser();
+  const result = await dbInstance.userModel.findUser("kento");
   console.log(result);
   res.status(200).json({ message: 'success!' })
 })
@@ -28,5 +28,10 @@ app.get('/error', (req: Request, res: Response) => {
 })
 
 app.use('/user', userRouter);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+})
 
 app.listen(process.env.PORT);
