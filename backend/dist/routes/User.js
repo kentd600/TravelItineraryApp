@@ -1,18 +1,21 @@
 import express from "express";
 import rateLimits from "../middleware/RateLimiter.js";
 import { dbInstance } from "../m/M.js";
-import { MongoServerError } from "mongodb";
 import passport from 'passport';
 import { Strategy } from 'passport-local';
-import bcrypt from 'bcrypt';
 import { UserController } from "../c/rest/UserController.js";
-passport.use(new Strategy(function verify(username, password, cb) {
+import bcrypt from 'bcrypt';
+passport.use(new Strategy(async function verify(username, password, cb) {
     try {
-        const user = dbInstance.userModel.findUser(username);
+        const user = await dbInstance.userModel.findUser(username);
+        if (!user)
+            return cb(null, false, { message: 'Incorrect username or password.' });
+        const checkPass = await bcrypt.compare(password, user?.hashedPass);
+        console.log(checkPass);
     }
     catch (err) {
         if (err instanceof Error) {
-            throw new Error('Incorrect username or password.');
+            return cb(err);
         }
     }
 }));
@@ -30,9 +33,19 @@ userRouter.get("/", (req, res) => {
 });
 userRouter.post("/signup", async (req, res, next) => {
     const addResult = await UserController.AddUser(req);
-    if (!addResult?.success)
+    if (!addResult?.success) {
         next(addResult?.error);
-    console.log(addResult);
+    }
+    else if (addResult.success) {
+        res.status(200).json({
+            success: true,
+            data: {
+                firstName: addResult.data?.firstName,
+                userName: addResult.data?.username,
+                email: addResult.data?.email
+            }
+        });
+    }
     /*try {
       await dbInstance.userModel.addUser({
         email: "test@test.com",
@@ -51,8 +64,9 @@ userRouter.post("/signup", async (req, res, next) => {
     }
     */
 });
-userRouter.post("/auth", (req, res) => {
-    res.status(200).json({ message: "here is your token!" });
-});
+userRouter.post("/auth", passport.authenticate('local', {
+    successRedirect: '/',
+    failureMessage: 'auth failed'
+}));
 export default userRouter;
 //# sourceMappingURL=User.js.map

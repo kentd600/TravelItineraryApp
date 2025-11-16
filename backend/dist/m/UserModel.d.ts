@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import type { MongooseDocument } from "./MUtilTypes.js";
-interface User {
+export interface User {
     email: string;
     firstName: string;
     middleName?: string;
@@ -25,5 +25,4 @@ export declare class UserModel {
         __v: number;
     }>;
 }
-export {};
 //# sourceMappingURL=UserModel.d.ts.map

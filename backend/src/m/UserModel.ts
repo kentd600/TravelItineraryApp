@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
 import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
 
-interface User {
+export interface User {
   email: string,
   firstName: string,
   middleName?: string,
@@ -12,7 +12,7 @@ interface User {
 }
 
 const userSchema: MongooseSchemaDef<User> = {
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
   middleName: { type: String, required: false },
   lastName: { type: String, required: true },

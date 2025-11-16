@@ -2,11 +2,12 @@ import { z } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { dbInstance } from '../../m/M.js';
+import type { User } from '../../m/UserModel.js';
 
-interface HashResult {
-  success?: boolean,
-  result?: string,
-  error?: Error | undefined
+export interface ControllerResult<T> {
+  success: boolean,
+  error: Error | null,
+  data: T | null
 }
 
 const userSchema = z.object({
@@ -19,7 +20,7 @@ const userSchema = z.object({
   password: z.string().min(8)
 })
 
-function controllerResult(data: {} | null, success: boolean = true, error: null | Error = null) {
+function controllerResult<T>(data: T | null, success: boolean = true, error: null | Error = null): ControllerResult<T> {
   return {
     data,
     success,
