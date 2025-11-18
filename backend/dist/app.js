@@ -2,7 +2,23 @@ import express, {} from "express";
 import { dbInstance } from "./m/M.js";
 import userRouter from "./routes/User.js";
 import cookieParser from "cookie-parser";
+import { createClient } from 'redis';
+import { RedisStore } from 'connect-redis';
 const app = express();
+const rClient = createClient({
+    username: process.env.REDIS_DEFAULT,
+    password: process.env.REDIS_PW,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT)
+    }
+});
+rClient.on('error', err => console.log('Redis client error', err));
+await rClient.connect();
+export const redisStore = new RedisStore({
+    client: rClient,
+    prefix: 'wander:'
+});
 try {
     await dbInstance.connect();
 }
@@ -15,8 +31,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.get('/', async (req, res) => {
-    const result = await dbInstance.userModel.findUser("kento");
-    console.log(result);
     res.status(200).json({ message: 'success!' });
 });
 app.get('/error', (req, res) => {

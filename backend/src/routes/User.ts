@@ -1,24 +1,9 @@
 import express from "express";
 import rateLimits from "../middleware/RateLimiter.js";
 import { dbInstance } from "../m/M.js";
-import passport from 'passport';
-import { Strategy } from 'passport-local';
 import { UserController, type ControllerResult } from "../c/rest/UserController.js";
-import type { User } from "../m/UserModel.js";
-import bcrypt from 'bcrypt';
+import { UserModel, type DbUserResult, type User } from "../m/UserModel.js";
 
-passport.use(new Strategy(async function verify(username, password, cb) {
-  try {
-    const user = await dbInstance.userModel.findUser(username);
-    if (!user) return cb(null, false, { message: 'Incorrect username or password.' });
-    const checkPass = await bcrypt.compare(password, user?.hashedPass!);
-    console.log(checkPass);
-  } catch (err) {
-    if (err instanceof Error) {
-      return cb(err);
-    }
-  }
-}))
 
 const userRouter = express.Router();
 
@@ -34,7 +19,7 @@ function isKnownError(code: number): code is dbErrors {
   return (KNOWN_CODES as readonly number[]).includes(code);
 }
 
-userRouter.use(rateLimits.default);
+userRouter.use(rateLimits.autocomplete);
 
 userRouter.get("/", (req, res) => {
   res.status(200).json({ message: "successfully hit user endpoint!" });
@@ -43,7 +28,7 @@ userRouter.get("/", (req, res) => {
 userRouter.post("/signup", async (req, res, next) => {
   const addResult = await UserController.AddUser(req) as ControllerResult<User>;
   if (!addResult?.success) {
-    next(addResult?.error);
+    return next(addResult?.error);
   } else if (addResult.success) {
     res.status(200).json({
       success: true,
@@ -73,10 +58,7 @@ userRouter.post("/signup", async (req, res, next) => {
   */
 })
 
-userRouter.post("/auth", passport.authenticate('local', {
-    successRedirect:'/',
-    failureMessage:'auth failed'
-  }
-))
+userRouter.post("/auth", (req, res, next) => {
+})
 
 export default userRouter;

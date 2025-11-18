@@ -1,24 +1,8 @@
 import express from "express";
 import rateLimits from "../middleware/RateLimiter.js";
 import { dbInstance } from "../m/M.js";
-import passport from 'passport';
-import { Strategy } from 'passport-local';
 import { UserController } from "../c/rest/UserController.js";
-import bcrypt from 'bcrypt';
-passport.use(new Strategy(async function verify(username, password, cb) {
-    try {
-        const user = await dbInstance.userModel.findUser(username);
-        if (!user)
-            return cb(null, false, { message: 'Incorrect username or password.' });
-        const checkPass = await bcrypt.compare(password, user?.hashedPass);
-        console.log(checkPass);
-    }
-    catch (err) {
-        if (err instanceof Error) {
-            return cb(err);
-        }
-    }
-}));
+import { UserModel } from "../m/UserModel.js";
 const userRouter = express.Router();
 const Errors = {
     11000: "Username taken."
@@ -27,14 +11,14 @@ const KNOWN_CODES = [11000];
 function isKnownError(code) {
     return KNOWN_CODES.includes(code);
 }
-userRouter.use(rateLimits.default);
+userRouter.use(rateLimits.autocomplete);
 userRouter.get("/", (req, res) => {
     res.status(200).json({ message: "successfully hit user endpoint!" });
 });
 userRouter.post("/signup", async (req, res, next) => {
     const addResult = await UserController.AddUser(req);
     if (!addResult?.success) {
-        next(addResult?.error);
+        return next(addResult?.error);
     }
     else if (addResult.success) {
         res.status(200).json({
@@ -64,9 +48,7 @@ userRouter.post("/signup", async (req, res, next) => {
     }
     */
 });
-userRouter.post("/auth", passport.authenticate('local', {
-    successRedirect: '/',
-    failureMessage: 'auth failed'
-}));
+userRouter.post("/auth", (req, res, next) => {
+});
 export default userRouter;
 //# sourceMappingURL=User.js.map

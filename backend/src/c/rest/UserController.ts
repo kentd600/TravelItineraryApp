@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { dbInstance } from '../../m/M.js';
-import type { User } from '../../m/UserModel.js';
+import type { DbUserResult, User } from '../../m/UserModel.js';
 
 export interface ControllerResult<T> {
   success: boolean,
@@ -51,5 +51,11 @@ export const UserController = {
     } catch (err) {
       if (err instanceof Error) return controllerResult(null, false, err);
     }
+  },
+
+  async GetUser(req: Request) {
+    const { username } = req.body;
+    const gotUser = await dbInstance.userModel.findUserSafe(username);
+    return gotUser;
   }
 }

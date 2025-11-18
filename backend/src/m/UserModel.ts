@@ -11,6 +11,10 @@ export interface User {
   hashedPass: string
 }
 
+export interface DbUserResult extends User {
+  _id: Object
+}
+
 const userSchema: MongooseSchemaDef<User> = {
   email: { type: String, required: true, unique: true },
   firstName: { type: String, required: true },
@@ -34,6 +38,16 @@ export class UserModel {
 
   async findUser(username: string) {
     const result = await this.model.findOne({ username });
+    return result;
+  }
+
+  async findUserSafe(username: string) {
+    const result = await this.model.findOne({ username }, { hashedPass: 0 });
+    return result;
+  }
+
+  async findUserById(id: string) {
+    const result = await this.model.findById(id);
     return result;
   }
 

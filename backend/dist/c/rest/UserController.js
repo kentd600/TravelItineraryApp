@@ -45,6 +45,11 @@ export const UserController = {
             if (err instanceof Error)
                 return controllerResult(null, false, err);
         }
+    },
+    async GetUser(req) {
+        const { username } = req.body;
+        const gotUser = await dbInstance.userModel.findUserSafe(username);
+        return gotUser;
     }
 };
 //# sourceMappingURL=UserController.js.map

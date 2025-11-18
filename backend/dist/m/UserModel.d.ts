@@ -9,18 +9,31 @@ export interface User {
     username: string;
     hashedPass: string;
 }
+export interface DbUserResult extends User {
+    _id: Object;
+}
 export type UserModelInstance = InstanceType<typeof UserModel>;
 export declare class UserModel {
     schema: mongoose.Schema;
     model: mongoose.Model<MongooseDocument<User>>;
     constructor();
-    findUser(username: string): Promise<(mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<unknown, any, any, Record<string, any>, {}> & Required<{
-        _id: unknown;
+    findUser(username: string): Promise<(mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
     }> & {
         __v: number;
     }) | null>;
-    addUser(input: User): Promise<mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<unknown, any, any, Record<string, any>, {}> & Required<{
-        _id: unknown;
+    findUserSafe(username: string): Promise<(mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | null>;
+    findUserById(id: string): Promise<(mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | null>;
+    addUser(input: User): Promise<mongoose.Document<unknown, {}, MongooseDocument<User>, {}, {}> & User & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
     }> & {
         __v: number;
     }>;

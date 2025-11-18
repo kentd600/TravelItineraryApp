@@ -19,6 +19,14 @@ export class UserModel {
         const result = await this.model.findOne({ username });
         return result;
     }
+    async findUserSafe(username) {
+        const result = await this.model.findOne({ username }, { hashedPass: 0 });
+        return result;
+    }
+    async findUserById(id) {
+        const result = await this.model.findById(id);
+        return result;
+    }
     async addUser(input) {
         const result = await this.model.insertOne(input);
         return result;
