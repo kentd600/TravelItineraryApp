@@ -12,14 +12,14 @@ const authPopped = {
   width: 500,
   height: 'auto',
   right: 0,
-  duration: 0.2
+  duration: 0.2,
 }
 
 const authHidden = {
   width: 100,
   height: 0,
   right: 0,
-  duration: 0.2
+  duration: 0.2,
 }
 
 export default function MilliwaysAuth() {
