@@ -1,7 +1,8 @@
 import express from "express";
 import rateLimits from "../middleware/RateLimiter.js";
 import { dbInstance } from "../m/M.js";
-import { UserController, type ControllerResult } from "../c/rest/UserController.js";
+import { type ControllerResult } from "../c/rest/ControllerUtility.js";
+import { UserController } from "../c/rest/UserController.js";
 import { UserModel, type DbUserResult, type User } from "../m/UserModel.js";
 
 

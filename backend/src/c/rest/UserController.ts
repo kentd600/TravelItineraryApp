@@ -2,13 +2,8 @@ import { z } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { dbInstance } from '../../m/M.js';
+import { controllerResult } from './ControllerUtility.js';
 import type { DbUserResult, User } from '../../m/UserModel.js';
-
-export interface ControllerResult<T> {
-  success: boolean,
-  error: Error | null,
-  data: T | null
-}
 
 const userSchema = z.object({
   email: z.email(),
@@ -19,14 +14,6 @@ const userSchema = z.object({
   username: z.string(),
   password: z.string().min(8)
 })
-
-function controllerResult<T>(data: T | null, success: boolean = true, error: null | Error = null): ControllerResult<T> {
-  return {
-    data,
-    success,
-    error
-  }
-}
 
 export const UserController = {
   async AddUser(req: Request) {

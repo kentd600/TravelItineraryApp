@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon --env-file=.env ./dist/app.js\""
+    "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon --env-file=.env ./dist/app.js\"",
+    "build": "pnpm install & npx tsc",
+    "prod": "node ./dist/app.js"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { dbInstance } from '../../m/M.js';
+import { controllerResult } from './ControllerUtility.js';
 const userSchema = z.object({
     email: z.email(),
     firstName: z.string(),
@@ -10,13 +11,6 @@ const userSchema = z.object({
     username: z.string(),
     password: z.string().min(8)
 });
-function controllerResult(data, success = true, error = null) {
-    return {
-        data,
-        success,
-        error
-    };
-}
 export const UserController = {
     async AddUser(req) {
         const { user } = req.body;
