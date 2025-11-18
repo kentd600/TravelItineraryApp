@@ -5,6 +5,7 @@
   --space: #4a646c;
   --deepSpace: #2a3439;
   --compText: #6C524A;
+  --navHeight: max(8%, 60px);
 }
 
 .layoutContainer {
@@ -13,7 +14,7 @@
   flex-flow: row nowrap;
   width: 100%;
   font-size: x-large;
-  flex: 0 1 8%;
+  flex: 0 1 var(--navHeight);
 }
 
 .navContainer {
@@ -32,12 +33,14 @@
 
 .navLink {
   background-color: var(--lime);
-  height: 100%;
   padding: 0 1em;
-  margin: 0;
-  line-height: 100%;
+  margin: 0 10px;
   text-decoration: none;
   color: var(--compText);
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  border-radius: 25px;
 }
 
 .authContainer {
@@ -51,12 +54,12 @@
 .authPopOut {
   background: var(--lime);
   position: absolute;
-  top: 100px;
   width: 100%;
   height: 0;
   border-radius: 5px 0 5px 5px;
   overflow: hidden;
   z-index: 1;
+  top: var(--navHeight);
 }
 
 .authForm {
