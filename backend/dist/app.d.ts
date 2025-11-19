@@ -1,3 +1,2 @@
-import { RedisStore } from 'connect-redis';
-export declare const redisStore: RedisStore;
+export {};
 //# sourceMappingURL=app.d.ts.map

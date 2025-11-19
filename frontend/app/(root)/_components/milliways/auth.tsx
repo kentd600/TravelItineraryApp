@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './milliways.module.css';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -10,16 +10,14 @@ gsap.registerPlugin(useGSAP);
 
 const authPopped = {
   width: 500,
-  height: 'auto',
-  right: 0,
   duration: 0.2,
+  scaleY: 1
 }
 
 const authHidden = {
   width: 100,
-  height: 0,
-  right: 0,
   duration: 0.2,
+  scaleY: 0
 }
 
 export default function MilliwaysAuth() {
@@ -37,6 +35,16 @@ export default function MilliwaysAuth() {
     gsap.to(authPopOut.current, authHidden);
   })
 
+  function handleClickOutside(evt: MouseEvent) {
+    if (authContainer.current && evt.target instanceof Node) {
+      if (!authContainer.current.contains(evt.target)) {
+        hideAuth();
+        setPoppedState(false);
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
+    };
+  }
+
   const togglePopout = () => {
     if (poppedState) {
       hideAuth();
@@ -44,6 +52,7 @@ export default function MilliwaysAuth() {
     } else {
       expandAuth();
       setPoppedState(true);
+      document.addEventListener('mousedown', handleClickOutside);
     }
   }
 
@@ -66,11 +75,18 @@ export default function MilliwaysAuth() {
           action=""
           className={styles.authForm}
         >
-          <label htmlFor="username">Username</label>
-          <input type="text" name='username'/>
-          <label htmlFor="password">Password</label>
-          <input type="password" name='password'/>
-          <button className={classNames(styles.milliButton, styles.loginButton)}>Login/Signup</button>
+          <fieldset className={styles.formFieldset}>
+            <legend hidden>Login Form</legend>
+            <div className={styles.formField}>
+              <label htmlFor="username">Username</label>
+              <input type="text" name='username'/>
+            </div>
+            <div className={styles.formField}>
+              <label htmlFor="password">Password</label>
+              <input type="password" name='password'/>
+            </div>
+            <button className={classNames(styles.milliButton, styles.loginButton)}>Login/Signup</button>
+          </fieldset>
         </form>
       </div>
     </div>

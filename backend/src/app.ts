@@ -1,30 +1,13 @@
 import express, { type Request, type Response, type Application, type NextFunction } from "express";
-import { dbInstance } from "./m/M.js";
-import userRouter from "./routes/User.js";
+import cors from 'cors';
+import { dbInstance } from "./model/Models.js";
+import userRouter from "./routes/UserRouter.js";
 import cookieParser from "cookie-parser";
-import { createClient } from 'redis';
-import { RedisStore } from 'connect-redis';
-import locationRouter from "./routes/Location.js";
+import locationRouter from "./routes/LocationRouter.js";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./utils/auth.js";
 
 const app: Application = express();
-
-const rClient = createClient({
-  username: process.env.REDIS_DEFAULT!,
-  password: process.env.REDIS_PW!,
-  socket: {
-    host: process.env.REDIS_HOST!,
-    port: parseInt(process.env.REDIS_PORT!)
-  }
-})
-
-rClient.on('error', err => console.log('Redis client error', err));
-
-await rClient.connect();
-
-export const redisStore = new RedisStore({
-  client: rClient,
-  prefix: 'wander:'
-})
 
 try {
   await dbInstance.connect();
@@ -33,6 +16,13 @@ try {
     console.log("Db connection failed: ", err.message);
   }
 }
+
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}));
+
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

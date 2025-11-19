@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import { dbInstance } from '../../m/M.js';
+import { dbInstance } from '../../model/Models.js';
 import { controllerResult } from './ControllerUtility.js';
-import type { DbUserResult, User } from '../../m/UserModel.js';
+import type { DbUserResult, User } from '../../model/UserModel.js';
 
 const userSchema = z.object({
   email: z.email(),

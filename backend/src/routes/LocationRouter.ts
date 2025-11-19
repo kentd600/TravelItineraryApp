@@ -1,6 +1,6 @@
 import express from 'express';
 import rateLimits from '../middleware/RateLimiter.js';
-import { locationController } from '../c/rest/LocationController.js';
+import { locationController } from '../controller/rest/LocationController.js';
 
 const locationRouter = express.Router();
 
