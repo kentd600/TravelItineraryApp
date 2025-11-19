@@ -4,6 +4,7 @@ import userRouter from "./routes/User.js";
 import cookieParser from "cookie-parser";
 import { createClient } from 'redis';
 import { RedisStore } from 'connect-redis';
+import locationRouter from "./routes/Location.js";
 const app = express();
 const rClient = createClient({
     username: process.env.REDIS_DEFAULT,
@@ -37,6 +38,7 @@ app.get('/error', (req, res) => {
     res.status(200).json({ message: 'error!' });
 });
 app.use('/user', userRouter);
+app.use('/loc', locationRouter);
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something went wrong!');
