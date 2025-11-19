@@ -4,6 +4,7 @@ import userRouter from "./routes/User.js";
 import cookieParser from "cookie-parser";
 import { createClient } from 'redis';
 import { RedisStore } from 'connect-redis';
+import locationRouter from "./routes/Location.js";
 
 const app: Application = express();
 
@@ -46,6 +47,8 @@ app.get('/error', (req: Request, res: Response) => {
 })
 
 app.use('/user', userRouter);
+
+app.use('/loc', locationRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

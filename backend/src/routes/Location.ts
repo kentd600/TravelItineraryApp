@@ -10,3 +10,5 @@ locationRouter.get('/autocomp', rateLimits.autocomplete, async (req, res) => {
 })
 
 locationRouter.use(rateLimits.default);
+
+export default locationRouter;
