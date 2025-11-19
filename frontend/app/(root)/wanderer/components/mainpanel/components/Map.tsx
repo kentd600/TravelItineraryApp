@@ -74,7 +74,7 @@ export default function WandererMap () {
     <>
       <RMap
         id='wanderer-map'
-        mapStyle="https://tiles.stadiamaps.com/styles/alidade_satellite.json"
+        mapStyle="https://tiles.stadiamaps.com/data/openmaptiles.json"
         onLoad={(evt) => evt.target.setProjection({ type: 'globe' })}
         minZoom={1.5}
       >
