@@ -1,7 +1,7 @@
 'use client';
 
 import { authClient } from "@/app/_utility/auth-client";
-import React, { ChangeEventHandler, useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from './signup.module.css';
 import { Story_Script } from 'next/font/google';
 import { classNames } from '@/app/_utility/utilityFuncs';
