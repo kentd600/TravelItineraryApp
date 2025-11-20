@@ -5,13 +5,19 @@
   --space: #4a646c;
   --deepSpace: #2a3439;
   --compText: #6C524A;
-  --navHeight: max(8%, 60px);
+  --navHeight: max(6vh, 60px);
+}
+
+.layoutSpacer {
+  height:var(--navHeight);
 }
 
 .layoutContainer {
+  position: fixed;
   display: flex;
   justify-content: space-between;
   flex-flow: row nowrap;
+  height: var(--navHeight);
   width: 100%;
   font-size: x-large;
   flex: 0 1 var(--navHeight);

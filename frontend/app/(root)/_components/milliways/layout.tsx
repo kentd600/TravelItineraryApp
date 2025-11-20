@@ -17,12 +17,15 @@ export default function MilliwaysLayout() {
   const layoutContainer = useRef<HTMLDivElement>(null);
   
   return (
-    <div 
-      className={classNames(styles.layoutContainer, font.className)}
-      ref={layoutContainer}
-    >
-      <MilliwaysNav />
-      <MilliwaysAuth />
-    </div>
+    <>
+      <div className={styles.layoutSpacer}></div>
+      <div 
+        className={classNames(styles.layoutContainer, font.className)}
+        ref={layoutContainer}
+      >
+        <MilliwaysNav />
+        <MilliwaysAuth />
+      </div>
+    </>
   )
 }
