@@ -22,7 +22,8 @@ export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): Wd
             continent,
             country,
             countryCode,
-            city
+            city,
+            raw: state.selectedLocation!
           }
         ],
 
@@ -34,6 +35,12 @@ export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): Wd
       return {
         ...state,
         selectedLocation: location!
+      }
+
+    case 'deselectLocation':
+      return {
+        ...state,
+        selectedLocation: null
       }
 
     case 'setAppState':
@@ -51,6 +58,7 @@ export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): Wd
 export interface wdReducerActionPayloadMap {
   'addLocation': undefined,
   'selectLocation': { location: FeaturePropertiesV2 },
+  'deselectLocation': undefined,
   'setAppState': { appState: WdAppState }
 }
 

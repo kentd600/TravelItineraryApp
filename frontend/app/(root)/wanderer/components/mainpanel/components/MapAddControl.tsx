@@ -12,6 +12,10 @@ export default function MapAddControl () {
 
   const handleClick = () => {
     if (!ctx) return;
+    if (!ctx.wanderState.selectedLocation) {
+      console.log('No location selected.');
+      return;
+    }
     ctx.dispatch({ type: 'addLocation' })
   };
 

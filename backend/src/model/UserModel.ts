@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
 
 export interface User {

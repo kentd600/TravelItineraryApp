@@ -17,5 +17,13 @@ export const locationController = {
       layers: layerStates.default
     })
     return result;
+  },
+
+  async getPlaceDetails(req: Request) {
+    const { id } = req.body;
+    const result = await geoApi.placeDetailsV2({
+      ids: [id]
+    })
+    return result;
   }
 }

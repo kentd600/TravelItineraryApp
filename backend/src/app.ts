@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import locationRouter from "./routes/LocationRouter.js";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./utils/auth.js";
+import itineraryRouter from "./routes/ItineraryRouter.js";
 
 const app: Application = express();
 
@@ -39,6 +40,8 @@ app.get('/error', (req: Request, res: Response) => {
 app.use('/user', userRouter);
 
 app.use('/loc', locationRouter);
+
+app.use('/itinerary', itineraryRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

@@ -8,7 +8,8 @@ export type WdLocation = {
   continent: string,
   country: string,
   countryCode: string,
-  city: string | null
+  city: string | null,
+  raw: FeaturePropertiesV2
 }
 
 export enum WdAppState {

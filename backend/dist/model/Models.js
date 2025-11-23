@@ -1,9 +1,12 @@
+import { ItineraryModel } from "./ItineraryModel.js";
 import { UserModel } from "./UserModel.js";
 import mongoose, { Document } from "mongoose";
 class wdrDb {
     userModel;
+    itineraryModel;
     constructor() {
         this.userModel = new UserModel();
+        this.itineraryModel = new ItineraryModel();
     }
     async connect() {
         await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}@cluster0.tf0woju.mongodb.net/wanderer?appName=Cluster0`);

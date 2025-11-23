@@ -1,0 +1,1 @@
+{"version":3,"file":"ItineraryController.js","sourceRoot":"","sources":["../../../src/controller/rest/ItineraryController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,+BAA+B,CAAA;AAC9D,OAAO,EAAE,UAAU,EAAE,MAAM,uBAAuB,CAAA;AAElD,MAAM,CAAC,MAAM,mBAAmB,GAAG;IACjC,KAAK,CAAC,SAAS,CAAC,MAAc;QAC5B,MAAM,UAAU,CAAC,cAAc,CAAC,eAAe,CAAC,MAAM,CAAC,CAAC;IAC1D,CAAC;CACF,CAAA"}

@@ -14,6 +14,13 @@ export const locationController = {
             layers: layerStates.default
         });
         return result;
+    },
+    async getPlaceDetails(req) {
+        const { id } = req.body;
+        const result = await geoApi.placeDetailsV2({
+            ids: [id]
+        });
+        return result;
     }
 };
 //# sourceMappingURL=LocationController.js.map

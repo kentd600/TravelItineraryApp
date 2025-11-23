@@ -8,6 +8,11 @@
 
 .panelControl {
   flex: 0 0 70px;
+  border-bottom: 2px solid grey;
+}
+
+.panelControl h1 {
+  font-size: large;
 }
 
 .locationsContainer {

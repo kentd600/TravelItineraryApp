@@ -1,11 +1,14 @@
+import { ItineraryModel, type ItineraryModelInstance } from "./ItineraryModel.js";
 import { UserModel, type UserModelInstance } from "./UserModel.js"
 import mongoose, { Document } from "mongoose";
 
 class wdrDb {
   userModel: UserModelInstance
+  itineraryModel: ItineraryModelInstance
 
   constructor () {
     this.userModel = new UserModel();
+    this.itineraryModel = new ItineraryModel();
   }
 
   async connect() {

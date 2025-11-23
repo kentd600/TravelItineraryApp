@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { LayerId, type FeaturePropertiesV2, type GeocodingApi } from "@stadiamaps/api";
 import { type Map } from "maplibre-gl";
 import { useMap } from "maplibre-react-components";
+import styles from './MapSearchControl.module.css';
+import ky from "ky";
 
 interface MapSearchControlProps {
   api: GeocodingApi
@@ -18,7 +20,6 @@ interface AutocompleteState {
 }
 
 export default function MapSearchControl ({ api }: MapSearchControlProps) {
-  const map: Map = useMap();
   const [autocompState, setAutocompState] = useState<AutocompleteState>({
     input: "",
     results: null,
@@ -76,7 +77,6 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
   }
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(evt.target.value);
     setAutocompState(prev => ({ ...prev, input: evt.target.value }));
     if(evt.target.value === "") {
       setAutocompState(prev => ({
@@ -97,12 +97,15 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
   const handleKeyDown = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
     switch (evt.key) {
       case "Enter":
-        console.log(autocompState.loading);
         if (!autocompState.input || autocompState.input === "") return;
         if (!autocompState.results || autocompState.results.length < 1 || autocompState.loading) return;
         setAutocompState(prev => ({ ...prev, resultsVisible: false }));
-        const res = await api.placeDetailsV2({ ids: [autocompState.results[0].properties.gid] });
-        selectResult(res.features[0]);
+        const res = await ky.post<FeaturePropertiesV2>(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc/placedetails`, {
+          json: {
+            id: autocompState.results[0].properties.gid
+          }
+        }).json();
+        selectResult(res);
         break;
       default: null
     }
@@ -119,10 +122,10 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
   }
 
   return createPortal(
-    <div className="search-control__container">
-      <div className="search-control__input-container">
+    <div className={styles.searchControlContainer}>
+      <div className={styles.searchControlInputContainer}>
         <input
-          className="search-control__text-input"
+          className={styles.searchControlInput}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           value={autocompState.input}
@@ -130,19 +133,19 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
         />
       </div>
       {autocompState.resultsVisible ? <div 
-        className="search-control__results_container"
+        className={styles.resultsContainer}
         ref={resultsContainer}
       >
         {autocompState.results ? autocompState.results.map((feature, idx) => {
           return (
             <div
-              className="search-control__feature-result"
+              className={styles.autocompleteResultContainer}
               onClick={handleAutocompleteResultClick}
               key={`autocompleteResult_${idx}`}
               data-idx={idx}
             >
               <h3
-                style={{color: "black", userSelect: 'none'}}
+                className={styles.resultText}
               >
                 {feature.properties.name}, {feature.properties.coarseLocation}
               </h3>

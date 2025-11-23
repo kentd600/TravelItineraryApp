@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import locationRouter from "./routes/LocationRouter.js";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./utils/auth.js";
+import itineraryRouter from "./routes/ItineraryRouter.js";
 const app = express();
 try {
     await dbInstance.connect();
@@ -31,6 +32,7 @@ app.get('/error', (req, res) => {
 });
 app.use('/user', userRouter);
 app.use('/loc', locationRouter);
+app.use('/itinerary', itineraryRouter);
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something went wrong!');

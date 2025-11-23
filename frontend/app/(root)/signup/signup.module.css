@@ -12,8 +12,9 @@
 }
 
 .signupInfoContainer, .signupForm {
-  width: min(90%, 800px);
+  width: min(90%, 400px);
   margin: 10px auto;
+  font-size: 1.5rem;
 }
 
 .signupForm {

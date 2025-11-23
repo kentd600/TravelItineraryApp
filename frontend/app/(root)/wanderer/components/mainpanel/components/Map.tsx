@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import './maplibre-gl.css';
 import { RMap } from 'maplibre-react-components';
 import './Map.css';
 import { WandererContext } from '../../../context/WandererContext';

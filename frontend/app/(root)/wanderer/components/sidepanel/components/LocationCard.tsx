@@ -15,6 +15,7 @@ export default function LocationCard(props: LocationCardProps) {
       type: 'setAppState',
       payload: { appState: WdAppState.locationEdit }
     })
+    ctx?.dispatch({ type: 'selectLocation', payload: { location: locationData.raw } })
   }
 
   return (
