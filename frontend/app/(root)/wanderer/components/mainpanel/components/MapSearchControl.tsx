@@ -27,7 +27,7 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
   });
   const ctx = useContext(WandererContext);
   const controllerRef = useRef<AbortController | null>(null);
-  const apiHitTimeRef = useRef<number | null>(null);
+  const apiHitTimeRef = useRef<number>(new Date().getTime());
   const resultsContainer = useRef<HTMLDivElement | null>(null);
   const { container } = useRControl({
     position: "top-left"
@@ -44,10 +44,10 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
 
   const triggerAutoComplete = async (text: string) => {
     setAutocompState(prev => ({ ...prev, loading: true }))
-    if (!apiHitTimeRef.current) { apiHitTimeRef.current = new Date().getTime() };
     const curTime = new Date().getTime();
     const deltaTime = curTime - apiHitTimeRef.current;
     if (deltaTime < 500) {
+      setAutocompState(prev => ({ ...prev, loading: false }))
       return
     } else {
       controllerRef.current?.abort();
@@ -91,16 +91,13 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
   }
 
   const selectResult = (target: FeaturePropertiesV2) => {
-    ctx?.dispatch({type: 'selectLocation', payload: { location: target }})
-    /*ctx?.setWanderState(prev => ({
-      ...prev,
-      selectedCity: target
-    }));*/
+    ctx?.dispatch({type: 'selectLocation', payload: { location: target }});
   }
 
   const handleKeyDown = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
     switch (evt.key) {
       case "Enter":
+        console.log(autocompState.loading);
         if (!autocompState.input || autocompState.input === "") return;
         if (!autocompState.results || autocompState.results.length < 1 || autocompState.loading) return;
         setAutocompState(prev => ({ ...prev, resultsVisible: false }));

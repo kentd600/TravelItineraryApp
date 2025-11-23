@@ -1,7 +1,8 @@
-import { type WdStateVal, type WdDispatchArgs } from "./context/WandererContext";
+import { FeaturePropertiesV2 } from "@stadiamaps/api";
+import { type WdStateVal, type WdDispatchArgs, WdAppState } from "./context/WandererContext";
 import { LngLat } from "maplibre-gl";
 
-export default function wdReducer(state: WdStateVal, action: WdDispatchArgs) {
+export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): WdStateVal {
   switch(action.type) {
 
     case 'addLocation':
@@ -33,15 +34,24 @@ export default function wdReducer(state: WdStateVal, action: WdDispatchArgs) {
       return {
         ...state,
         selectedLocation: location!
-      } satisfies WdStateVal;
+      }
 
-    case 'setState':
-      if (!action.payload?.state) throwReducerError('State payload missing.');
-      return action.payload!.state!;
+    case 'setAppState':
+      const { appState } = action.payload!;
+      return {
+        ...state,
+        appState: appState!
+      }
 
     default:
       return state;
   }
+}
+
+export interface wdReducerActionPayloadMap {
+  'addLocation': undefined,
+  'selectLocation': { location: FeaturePropertiesV2 },
+  'setAppState': { appState: WdAppState }
 }
 
 function throwReducerError(msg: string): void {

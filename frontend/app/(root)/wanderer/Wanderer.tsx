@@ -1,10 +1,9 @@
 import WandererMainPanel from "./components/mainpanel/components/Map";
 import WandererLayout from "./WandererLayout";
-import { WandererContext, WdAppState, type WdDispatchArgs } from "./context/WandererContext";
+import { WandererContext, WdAppState, WdStateVal, type WdDispatchArgs } from "./context/WandererContext";
 import wdReducer from "./WandererReducer";
-import { useEffect, useReducer } from "react";
+import { ActionDispatch, useEffect, useReducer } from "react";
 import WandererSidePanel from "./components/sidepanel/SidePanel";
-import wdHistoryReducer from "./HistoryReducer";
 import { RMapContextProvider, useMap } from "maplibre-react-components";
 import { LngLat, type Map } from "maplibre-gl";
 
@@ -19,13 +18,11 @@ export default function Wanderer() {
 function WandererInner() {
   const [wanderState, dispatch] = useReducer(wdReducer, {
     locationList: [],
-    appState: WdAppState.locationSelection,
+    appState: WdAppState.itineraryEdit,
     selectedLocation: null,
   })
 
   const map: Map | null = useMap("wanderer-map");
-
-  const [wanderHistory, historyDispatch] = useReducer(wdHistoryReducer, [])
 
   useEffect(() => {
     if (!wanderState.selectedLocation) return;
@@ -37,13 +34,8 @@ function WandererInner() {
     })
   }, [wanderState.selectedLocation]);
 
-  function dispatchWithHistory (action: WdDispatchArgs): void {
-    historyDispatch({ type: "add", payload: wanderState });
-    dispatch({ type: action.type, payload: action.payload })
-  }
-
   return (
-      <WandererContext value={{wanderState, dispatch, wanderHistory, historyDispatch, dispatchWithHistory}}>
+      <WandererContext value={{wanderState, dispatch}}>
           <WandererLayout
             sidePanel={<WandererSidePanel />}
             mainPanel={<WandererMainPanel />}

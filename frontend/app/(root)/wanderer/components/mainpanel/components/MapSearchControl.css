@@ -1,3 +1,5 @@
 .results-hidden {
-  visibility: hidden;
+  @starting-style {
+    visibility: hidden;
+  }
 }

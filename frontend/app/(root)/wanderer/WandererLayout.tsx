@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import "./WandererLayout.css";
+import styles from './WandererLayout.module.css';
 
 interface LayoutProps {
   sidePanel: ReactNode,
@@ -9,11 +9,11 @@ interface LayoutProps {
 export default function WandererLayout({ sidePanel, mainPanel }: LayoutProps) {
 
   return (
-    <div className="wanderer__container">
-      <div className="side-panel__container">
+    <div className={styles.wandererContainer}>
+      <div className={styles.sidePanelContainer}>
         {sidePanel}
       </div>
-      <div className="main-panel__container">
+      <div className={styles.mainPanelContainer}>
         {mainPanel}
       </div>
     </div>

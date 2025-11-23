@@ -1,4 +1,6 @@
-import { type WdLocation } from "../../../context/WandererContext";
+import { useContext } from "react";
+import { WandererContext, WdAppState, type WdLocation } from "../../../context/WandererContext";
+import styles from './LocationCard.module.css';
 
 export interface LocationCardProps {
   locationData: WdLocation
@@ -6,14 +8,24 @@ export interface LocationCardProps {
 
 export default function LocationCard(props: LocationCardProps) {
   const { locationData } = props!;
+  const ctx = useContext(WandererContext);
+
+  function enterLocationEdit() {
+    ctx?.dispatch({
+      type: 'setAppState',
+      payload: { appState: WdAppState.locationEdit }
+    })
+  }
+
   return (
-    <div className="location-card__container">
-      <h2>{locationData.city}</h2>
-      <p>{`
-        Continent: ${locationData.continent}
-        Country: ${locationData.country}
-        Country Code: ${locationData.countryCode}
-      `}</p>
+    <div
+      className={styles.locationCard}
+      onClick={enterLocationEdit}
+    >
+        <h2>{locationData.city}</h2>
+        <p>{`Continent: ${locationData.continent}`}</p>
+        <p>{`Country: ${locationData.country}`}</p>
+        <p>{`Country Code: ${locationData.countryCode}`}</p>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import type { FeaturePropertiesV2 } from "@stadiamaps/api";
 import type { LngLat } from "maplibre-gl";
 import { createContext, type ActionDispatch } from "react";
+import { wdReducerActionPayloadMap } from "../WandererReducer";
 
 export type WdLocation = {
   coords: LngLat,
@@ -11,8 +12,8 @@ export type WdLocation = {
 }
 
 export enum WdAppState {
-  locationSelection,
-  poiSelection
+  itineraryEdit,
+  locationEdit
 }
 
 export interface WdStateVal {
@@ -27,27 +28,16 @@ export interface WdStateVal {
   Could be a country, city, POI, depending on the appState*/
 }
 
-interface WdDispatchPayload {
-  location?: FeaturePropertiesV2,
-  state?: WdStateVal
-}
-
-export interface WdDispatchArgs {
-  type: string,
-  payload?: WdDispatchPayload
-}
-
-export interface WdHistoryDispatchArgs {
-  type: string,
-  payload?: WdStateVal,
-}
+export type WdDispatchArgs = {
+  [K in keyof wdReducerActionPayloadMap]: {
+    type: K;
+    payload?: wdReducerActionPayloadMap[K];
+  }
+}[keyof wdReducerActionPayloadMap]
 
 export type WdContextType = {
   wanderState: WdStateVal,
-  dispatch: ActionDispatch<[WdDispatchArgs]>,
-  wanderHistory: WdStateVal[] | [],
-  historyDispatch: ActionDispatch<[WdHistoryDispatchArgs]>,
-  dispatchWithHistory: (action: WdDispatchArgs) => void
+  dispatch: ActionDispatch<[WdDispatchArgs]>
 }
 
 export const WandererContext = createContext<WdContextType | null>(null);

@@ -12,7 +12,7 @@ export default function MapAddControl () {
 
   const handleClick = () => {
     if (!ctx) return;
-    ctx.dispatchWithHistory({ type: 'addLocation' })
+    ctx.dispatch({ type: 'addLocation' })
   };
 
   return createPortal(

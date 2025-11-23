@@ -3,3 +3,8 @@
   height: 100vh;
   flex-direction: column;
 }
+
+.contentContainer {
+  z-index: 1;
+  height: calc(100% - var(--navHeight));
+}

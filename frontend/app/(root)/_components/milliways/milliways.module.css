@@ -21,6 +21,7 @@
   width: 100%;
   font-size: x-large;
   flex: 0 1 var(--navHeight);
+  z-index: 2;
 }
 
 .navContainer {
@@ -63,7 +64,6 @@
   right: 0;
   border-radius: 5px 0 5px 5px;
   overflow: hidden;
-  z-index: 1;
   top: var(--navHeight);
   transform: scaleY(0);
   transform-origin: top right;
