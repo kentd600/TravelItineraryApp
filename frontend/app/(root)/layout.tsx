@@ -4,6 +4,7 @@ import "../globals.css";
 import MilliwaysLayout from "./_components/milliways/layout";
 import styles from './page.module.css';
 import { classNames } from "../_utility/utilityFuncs";
+import AuthProvider from "./wanderer/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,10 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div className={classNames(styles.appContainer)}>
-          <MilliwaysLayout />
-          <div className={styles.contentContainer}>{children}</div>
-        </div>
+        <AuthProvider>
+          <div className={classNames(styles.appContainer)}>
+            <MilliwaysLayout />
+            <div className={styles.contentContainer}>{children}</div>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

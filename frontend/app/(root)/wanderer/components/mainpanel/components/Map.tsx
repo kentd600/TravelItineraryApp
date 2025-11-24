@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { Suspense, useContext, useState } from 'react';
 import './maplibre-gl.css';
 import { RMap } from 'maplibre-react-components';
 import './Map.css';
@@ -7,6 +7,7 @@ import { GeocodingApi } from '@stadiamaps/api';
 
 import MapAddControl from './MapAddControl';
 import MapSearchControl from './MapSearchControl';
+import Loading from '../../../loading';
 
 export default function WandererMap () {
   const ctx = useContext(WandererContext);
@@ -15,15 +16,17 @@ export default function WandererMap () {
 
   return (
     <>
-      <RMap
-        id='wanderer-map'
-        mapStyle="https://tiles.stadiamaps.com/styles/osm_bright.json"
-        onLoad={(evt) => evt.target.setProjection({ type: 'globe' })}
-        minZoom={1.5}
-      >
-        <MapAddControl />
-        <MapSearchControl api={geoApi}/>
-      </RMap>
+      <Suspense fallback={<Loading />}>
+        <RMap
+          id='wanderer-map'
+          mapStyle="https://tiles.stadiamaps.com/styles/osm_bright.json"
+          onLoad={(evt) => evt.target.setProjection({ type: 'globe' })}
+          minZoom={1.5}
+        >
+          <MapAddControl />
+          <MapSearchControl api={geoApi}/>
+        </RMap>
+      </Suspense>
     </>
   )
 }

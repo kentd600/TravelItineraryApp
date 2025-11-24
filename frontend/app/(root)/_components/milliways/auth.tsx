@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './milliways.module.css';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { classNames } from '@/app/_utility/utilityFuncs';
 import { authClient } from '@/app/_utility/auth-client';
+import { redirect, RedirectType } from 'next/navigation';
+import { useAuthContext } from '../../wanderer/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,6 +25,22 @@ const authHidden = {
 }
 
 export default function MilliwaysAuth() {
+  const router = useRouter();
+  const ctx = useAuthContext();
+  const {
+    data: session,
+    isPending,
+    error,
+    refetch
+  } = ctx!;
+
+  useEffect(() => {
+    if (session) {
+      setAuthState(true);
+    } else if (isPending) {
+      setAuthState(false);
+    }
+  }, [isPending])
 
   const authContainer = useRef<HTMLDivElement>(null);
   const authPopOut = useRef<HTMLDivElement>(null);
@@ -31,6 +50,7 @@ export default function MilliwaysAuth() {
     email: '',
     password: ''
   })
+  const [isAuth, setAuthState] = useState(false);
 
   const expandAuth = contextSafe(() => {
     gsap.to(authPopOut.current, authPopped);
@@ -71,8 +91,24 @@ export default function MilliwaysAuth() {
   async function handleLogin() {
     const { data, error } = await authClient.signIn.email({
       ...inputState
-    })
-    console.log(data, error);
+    });
+    console.log(data);
+    if (error) return;
+    if (data) {
+      setAuthState(true);
+      togglePopout();
+      setInputState({
+        email: '',
+        password: ''
+      })
+      redirect('/wanderer', RedirectType.push);
+    }
+  }
+
+  async function handleSignout() {
+    await authClient.signOut();
+    refetch();
+    router.push('/');
   }
 
   return (
@@ -80,12 +116,21 @@ export default function MilliwaysAuth() {
       className={styles.authContainer}
       ref={authContainer}
     >
+      {!isAuth ?
       <button
+        type='button'
         onClick={togglePopout}
         className={classNames(styles.authToggle, styles.milliButton)}
       >
         Login
-      </button>
+      </button> : 
+      <button
+        type='button'
+        onClick={handleSignout}
+        className={classNames(styles.authToggle, styles.milliButton)}
+      >
+        Sign Out
+      </button>}
       <div
         ref={authPopOut}
         className={styles.authPopOut}
@@ -98,11 +143,11 @@ export default function MilliwaysAuth() {
             <legend hidden>Login Form</legend>
             <div className={styles.formField}>
               <label htmlFor="email">Username</label>
-              <input type="text" name='email' onChange={handleInput}/>
+              <input type="text" name='email' onChange={handleInput} value={inputState.email}/>
             </div>
             <div className={styles.formField}>
               <label htmlFor="password">Password</label>
-              <input type="password" name='password' onChange={handleInput}/>
+              <input type="password" name='password' onChange={handleInput} value={inputState.password}/>
             </div>
             <button
               className={classNames(styles.milliButton, styles.loginButton)}

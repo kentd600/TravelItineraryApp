@@ -34,8 +34,11 @@ app.use('/user', userRouter);
 app.use('/loc', locationRouter);
 app.use('/itinerary', itineraryRouter);
 app.use((err, req, res, next) => {
+    if (res.statusCode === 200) {
+        res.status(500);
+    }
     console.error(err.stack);
-    res.status(500).send('Something went wrong!');
+    res.send(err.message);
 });
 app.listen(process.env.PORT);
 //# sourceMappingURL=app.js.map
