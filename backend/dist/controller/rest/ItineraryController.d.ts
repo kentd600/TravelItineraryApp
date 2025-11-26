@@ -1,4 +1,6 @@
+import { type Request } from "express";
 export declare const itineraryController: {
-    createNew(userId: string): Promise<void>;
+    createNew(req: Request): Promise<void>;
+    addLocation(req: Request): Promise<void>;
 };
 //# sourceMappingURL=ItineraryController.d.ts.map

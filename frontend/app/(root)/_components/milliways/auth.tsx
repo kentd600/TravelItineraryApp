@@ -26,21 +26,12 @@ const authHidden = {
 
 export default function MilliwaysAuth() {
   const router = useRouter();
-  const ctx = useAuthContext();
   const {
     data: session,
     isPending,
     error,
     refetch
-  } = ctx!;
-
-  useEffect(() => {
-    if (session) {
-      setAuthState(true);
-    } else if (isPending) {
-      setAuthState(false);
-    }
-  }, [isPending])
+  } = authClient.useSession();
 
   const authContainer = useRef<HTMLDivElement>(null);
   const authPopOut = useRef<HTMLDivElement>(null);
@@ -50,7 +41,6 @@ export default function MilliwaysAuth() {
     email: '',
     password: ''
   })
-  const [isAuth, setAuthState] = useState(false);
 
   const expandAuth = contextSafe(() => {
     gsap.to(authPopOut.current, authPopped);
@@ -95,7 +85,6 @@ export default function MilliwaysAuth() {
     console.log(data);
     if (error) return;
     if (data) {
-      setAuthState(true);
       togglePopout();
       setInputState({
         email: '',
@@ -116,7 +105,7 @@ export default function MilliwaysAuth() {
       className={styles.authContainer}
       ref={authContainer}
     >
-      {!isAuth ?
+      {!session ?
       <button
         type='button'
         onClick={togglePopout}

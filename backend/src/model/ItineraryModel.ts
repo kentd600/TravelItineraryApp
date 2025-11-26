@@ -1,14 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
-import type { FeaturePropertiesV2 } from "@stadiamaps/api";
 
 export interface ItineraryLocation {
   pois: string[] | null | undefined
-  location: FeaturePropertiesV2
+  location: string
+  startDate: Date,
+  endDate: Date
 }
 
 export interface Itinerary {
-  userId: string
+  _user: Schema.Types.ObjectId,
+  title: string,
   locations: ItineraryLocation[] | null | undefined
 }
 
@@ -17,7 +19,8 @@ export interface DbItineraryResult extends Itinerary {
 }
 
 const itinerarySchema: MongooseSchemaDef<Itinerary> = {
-  userId: { type: String, required: true },
+  _user: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
+  title: { type: String, required: true },
   locations: { type: Array, required: true }
 }
 
@@ -32,10 +35,22 @@ export class ItineraryModel {
     this.model = mongoose.model<MongooseDocument<Itinerary>>('itinerary', this.schema);
   }
 
-  async createItinerary(userId: string) {
-      const result = await this.model.insertOne({
-        userId,
-        locations: []
-      })
+  async createItinerary(_user: string, title: string) {
+    const result = await this.model.insertOne({
+      _user,
+      locations: [],
+      title
+    })
+    console.log(result);
+  }
+
+  async addLocation(itineraryId: string, location: {}, startDate: string, endDate: string) {
+    const itinerary = await this.model.findById(itineraryId);
+    itinerary?.locations?.push({
+      location: JSON.stringify(location),
+      pois: undefined,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate)
+    })
   }
 }

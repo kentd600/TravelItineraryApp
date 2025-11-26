@@ -16,6 +16,7 @@ export async function middleware(req: Request) {
 export const config = {
   runtime: 'nodejs',
   matcher: [
-    "/wanderer/:path*"
+    "/wanderer/:path*",
+    "/itineraries/:path*"
   ]
 }

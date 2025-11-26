@@ -5,6 +5,7 @@ export type MongooseSchemaProp<T> = {
   required?: boolean;
   unique?: boolean;
   default?: T | (() => T)
+  ref?: string
 }
 
 export type MongooseSchemaDef<T> = {

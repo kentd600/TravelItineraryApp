@@ -1,12 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import type { MongooseDocument } from "./MUtilTypes.js";
-import type { FeaturePropertiesV2 } from "@stadiamaps/api";
 export interface ItineraryLocation {
     pois: string[] | null | undefined;
-    location: FeaturePropertiesV2;
+    location: string;
+    startDate: Date;
+    endDate: Date;
 }
 export interface Itinerary {
-    userId: string;
+    _user: Schema.Types.ObjectId;
+    title: string;
     locations: ItineraryLocation[] | null | undefined;
 }
 export interface DbItineraryResult extends Itinerary {
@@ -17,6 +19,7 @@ export declare class ItineraryModel {
     schema: mongoose.Schema;
     model: mongoose.Model<MongooseDocument<Itinerary>>;
     constructor();
-    createItinerary(userId: string): Promise<void>;
+    createItinerary(_user: string, title: string): Promise<void>;
+    addLocation(itineraryId: string, location: {}, startDate: string, endDate: string): Promise<void>;
 }
 //# sourceMappingURL=ItineraryModel.d.ts.map

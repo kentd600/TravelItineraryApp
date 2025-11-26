@@ -32,7 +32,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className={classNames(styles.appContainer)}>
             <MilliwaysLayout />
-            <div className={styles.contentContainer}>{children}</div>
+            <div className={styles.contentContainer} id='mainContentContainer'>{children}</div>
           </div>
         </AuthProvider>
       </body>

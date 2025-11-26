@@ -8,3 +8,13 @@
   z-index: 1;
   height: calc(100% - var(--navHeight));
 }
+
+.videoCanvas {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+}
+
+.videoEnd {
+  height: 500vh;
+}
