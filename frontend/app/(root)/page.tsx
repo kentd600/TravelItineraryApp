@@ -75,11 +75,13 @@ export default function Home() {
     images[0].onload = () => drawScaledImage(images[0], canvas, canvasCtx);
 
     lenisRef.current?.lenis?.on("scroll", ScrollTrigger.update);
+
     function update(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
+    
     return () => {
       gsap.ticker.remove(update);
       window.removeEventListener('resize', updateCanvasSize)

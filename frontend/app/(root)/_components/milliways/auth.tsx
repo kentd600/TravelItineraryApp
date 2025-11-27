@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 gsap.registerPlugin(useGSAP);
 
 const authPopped = {
-  width: 500,
+  width: Math.min(500, window.innerWidth),
   duration: 0.2,
   scaleY: 1
 }

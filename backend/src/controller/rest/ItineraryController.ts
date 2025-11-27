@@ -7,8 +7,10 @@ export const itineraryController = {
   async createNew(req: Request) {
     const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) });
     const { title } = req.body;
-    if (!session) throw new Error('Unauthorized.')
+    if (!session) throw new Error('Unauthorized.');
     await dbInstance.itineraryModel.createItinerary(session.user.id, title);
+    const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id, ['title']);
+    return itineraries;
   },
 
   async addLocation(req: Request) {
@@ -20,5 +22,12 @@ export const itineraryController = {
       endDate
     );
     console.log(result);
-  } 
+  },
+
+  async getItineraries(req: Request) {
+    const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) });
+    if (!session) throw new Error ('Unauthorized.');
+    const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id);
+    return itineraries;
+  }
 }

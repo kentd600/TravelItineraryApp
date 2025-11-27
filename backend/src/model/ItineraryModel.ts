@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
+import { generateSelect } from "./ModelUtility.js";
+import { dbInstance } from "./Models.js";
 
 export interface ItineraryLocation {
   pois: string[] | null | undefined
@@ -41,7 +43,6 @@ export class ItineraryModel {
       locations: [],
       title
     })
-    console.log(result);
   }
 
   async addLocation(itineraryId: string, location: {}, startDate: string, endDate: string) {
@@ -52,5 +53,13 @@ export class ItineraryModel {
       startDate: new Date(startDate),
       endDate: new Date(endDate)
     })
+  }
+
+  async getUserItineraries(userId: string, select?: string[], exclude?: string[]) {
+    const selectFields = generateSelect(select || undefined, exclude || undefined);
+    const itineraries =  Object.keys(selectFields).length === 0 ?
+    await this.model.find({ _user: userId }) :
+    await this.model.find({ _user: userId }).select(selectFields);
+    return itineraries;
   }
 }

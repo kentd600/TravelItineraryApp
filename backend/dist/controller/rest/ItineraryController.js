@@ -9,11 +9,20 @@ export const itineraryController = {
         if (!session)
             throw new Error('Unauthorized.');
         await dbInstance.itineraryModel.createItinerary(session.user.id, title);
+        const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id, ['title']);
+        return itineraries;
     },
     async addLocation(req) {
         const { itineraryId, location, startDate, endDate } = req.body;
         const result = await dbInstance.itineraryModel.addLocation(itineraryId, location, startDate, endDate);
         console.log(result);
+    },
+    async getItineraries(req) {
+        const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) });
+        if (!session)
+            throw new Error('Unauthorized.');
+        const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id);
+        return itineraries;
     }
 };
 //# sourceMappingURL=ItineraryController.js.map

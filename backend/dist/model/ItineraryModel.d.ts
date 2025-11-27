@@ -21,5 +21,10 @@ export declare class ItineraryModel {
     constructor();
     createItinerary(_user: string, title: string): Promise<void>;
     addLocation(itineraryId: string, location: {}, startDate: string, endDate: string): Promise<void>;
+    getUserItineraries(userId: string, select?: string[], exclude?: string[]): Promise<(mongoose.Document<unknown, {}, MongooseDocument<Itinerary>, {}, {}> & Itinerary & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
+    }> & {
+        __v: number;
+    })[]>;
 }
 //# sourceMappingURL=ItineraryModel.d.ts.map
