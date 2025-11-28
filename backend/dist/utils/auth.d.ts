@@ -18,5 +18,6 @@ export declare const auth: import("better-auth").Auth<{
     crossOriginCookies: {
         enabled: boolean;
     };
+    disableCSRFCheck: boolean;
 }>;
 //# sourceMappingURL=auth.d.ts.map

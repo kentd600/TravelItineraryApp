@@ -28,6 +28,7 @@ export const auth = betterAuth({
     },
     crossOriginCookies: {
         enabled: true
-    }
+    },
+    disableCSRFCheck: true
 });
 //# sourceMappingURL=auth.js.map
