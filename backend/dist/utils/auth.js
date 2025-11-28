@@ -20,6 +20,11 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         }
     },
-    trustedOrigins: [process.env.CLIENT_URL]
+    trustedOrigins: [process.env.CLIENT_URL],
+    defaultCookieAttributes: {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+    }
 });
 //# sourceMappingURL=auth.js.map

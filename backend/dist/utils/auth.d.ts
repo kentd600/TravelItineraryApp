@@ -10,5 +10,10 @@ export declare const auth: import("better-auth").Auth<{
         };
     };
     trustedOrigins: string[];
+    defaultCookieAttributes: {
+        httpOnly: boolean;
+        secure: boolean;
+        sameSite: string;
+    };
 }>;
 //# sourceMappingURL=auth.d.ts.map
