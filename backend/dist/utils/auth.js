@@ -25,6 +25,9 @@ export const auth = betterAuth({
         httpOnly: true,
         secure: true,
         sameSite: 'none'
+    },
+    crossOriginCookies: {
+        enabled: true
     }
 });
 //# sourceMappingURL=auth.js.map
