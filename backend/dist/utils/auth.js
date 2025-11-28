@@ -20,6 +20,6 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         }
     },
-    trustedOrigins: ['http://localhost:3001', 'https://wanderer-flame.vercel.app']
+    trustedOrigins: [process.env.CLIENT_URL]
 });
 //# sourceMappingURL=auth.js.map

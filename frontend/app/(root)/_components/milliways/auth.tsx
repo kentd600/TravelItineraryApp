@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 gsap.registerPlugin(useGSAP);
 
 const authPopped = {
-  width: Math.min(500, window.innerWidth),
+  width: 500,
   duration: 0.2,
   scaleY: 1
 }
@@ -43,7 +43,7 @@ export default function MilliwaysAuth() {
   })
 
   const expandAuth = contextSafe(() => {
-    gsap.to(authPopOut.current, authPopped);
+    gsap.to(authPopOut.current, {...authPopped, width: Math.min(500, window.innerWidth)});
   })
 
   const hideAuth = contextSafe(() => {
