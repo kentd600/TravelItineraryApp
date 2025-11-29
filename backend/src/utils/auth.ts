@@ -29,7 +29,7 @@ export const auth = betterAuth({
       secure: true,
       sameSite: 'none',
       partitioned: true,
-      domain: 'wanderer-flame.vercel.app',
+      domain: '.vercel.app',
       path: '/'
     }
   }
