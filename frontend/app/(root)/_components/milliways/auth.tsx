@@ -81,6 +81,8 @@ export default function MilliwaysAuth() {
   async function handleLogin() {
     const { data, error } = await authClient.signIn.email({
       ...inputState
+    },{
+      credentials: 'include'
     });
     console.log(data);
     if (error) return;
