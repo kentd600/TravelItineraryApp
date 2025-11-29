@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
 import rateLimits from '../middleware/RateLimiter.js';
 import { locationController } from '../controller/rest/LocationController.js';
 import { wanderCache } from '../utils/cache.js';
 
-const locationRouter = express.Router();
+const locationRouter: Router = express.Router();
 
 locationRouter.post('/autocomp', rateLimits.autocomplete, async (req, res) => {
   const result = await locationController.autocomplete(req);
