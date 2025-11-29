@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, type BetterAuthOptions, type Auth, type BetterAuthPlugin } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 import { MongoClient, ServerApiVersion } from "mongodb";
@@ -12,7 +12,7 @@ const client = new MongoClient(`mongodb+srv://${process.env.DB_USER}:${process.e
 });
 const userDb = client.db("wanderer");
 
-export const auth = betterAuth({
+export const auth: Auth<BetterAuthOptions> = betterAuth({
   database: mongodbAdapter(userDb, { client }),
   emailAndPassword: {
     enabled: true
@@ -31,6 +31,5 @@ export const auth = betterAuth({
       sameSite: 'none',
       partitioned: true
     }
-  },
-  plugins: [nextCookies()]
+  }
 })
