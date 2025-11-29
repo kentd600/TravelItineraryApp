@@ -7,6 +7,7 @@ import { type Map } from "maplibre-gl";
 import { useMap } from "maplibre-react-components";
 import styles from './MapSearchControl.module.css';
 import ky from "ky";
+import { LocationDetails } from "@/app/(root)/wanderer/WandererTypes";
 
 interface MapSearchControlProps {
   api: GeocodingApi
@@ -90,9 +91,9 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
     }
   }
 
-  const selectResult = (target: FeaturePropertiesV2) => {
-    console.log(target);
-    ctx?.dispatch({type: 'selectLocation', payload: { location: target }});
+  const selectResult = async (target: LocationDetails) => {
+    if (!ctx) throw new Error('Missing context!');
+    ctx.dispatch({type: 'selectLocation', payload: { location: target }});
   }
 
   const handleKeyDown = async (evt: React.KeyboardEvent<HTMLInputElement>) => {
@@ -101,11 +102,12 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
         if (!autocompState.input || autocompState.input === "") return;
         if (!autocompState.results || autocompState.results.length < 1 || autocompState.loading) return;
         setAutocompState(prev => ({ ...prev, resultsVisible: false }));
-        const res = await ky.post<FeaturePropertiesV2>(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc/placedetails`, {
+        const res = await ky.post<Promise<LocationDetails>>(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc/placedetails`, {
           json: {
             id: autocompState.results[0].properties.gid
           }
         }).json();
+        console.log(res);
         selectResult(res);
         break;
       default: null
@@ -117,8 +119,13 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
     if(evt.currentTarget instanceof HTMLElement) {
       const idx: number = parseInt(evt.currentTarget.dataset.idx!);
       const selectedResult = autocompState.results![idx];
-      const res = await api.placeDetailsV2({ ids: [selectedResult.properties.gid] })
-      selectResult(res.features[0]);
+      const res = await ky.post<Promise<LocationDetails>>(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc/placedetails`, {
+        json: {
+          id: selectedResult.properties.gid
+        }
+      }).json();
+      console.log(res);
+      selectResult(res);
     }
   }
 

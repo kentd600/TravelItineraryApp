@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import type { MongooseDocument } from "./MUtilTypes.js";
-import { type FeaturePropertiesV2 } from "@stadiamaps/api";
-type docSubMap = {
+export type docSubMap = {
     [key: string]: string;
 } | null | undefined;
 export interface LocationDetails {
@@ -27,11 +26,15 @@ export declare class LocationModel {
     schema: mongoose.Schema;
     model: mongoose.Model<MongooseDocument<Location>>;
     constructor();
-    addLocation(_itinerary: string, details: FeaturePropertiesV2): Promise<mongoose.Document<unknown, {}, MongooseDocument<Location>, {}, {}> & Location & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+    addLocation(_itinerary: string, details: LocationDetails): Promise<mongoose.Document<unknown, {}, MongooseDocument<Location>, {}, {}> & Location & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: mongoose.Types.ObjectId;
     }> & {
         __v: number;
     }>;
+    getItineraryLocations(_itinerary: string, select?: string[], exclude?: string[]): Promise<(mongoose.Document<unknown, {}, MongooseDocument<Location>, {}, {}> & Location & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
+    }> & {
+        __v: number;
+    })[]>;
 }
-export {};
 //# sourceMappingURL=LocationModel.d.ts.map

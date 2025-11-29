@@ -13,13 +13,9 @@ itineraryRouter.post('/create', async (req, res) => {
   res.status(201).send();
 })
 
-itineraryRouter.post('/update', async (req, res) => {
-  await itineraryController.addLocation(req);
-})
-
 itineraryRouter.get('/:id', async (req, res) => {
   const itinerary = await itineraryController.getIinerary(req);
-  console.log('Got itinerary', itinerary);
+  res.status(200).json(itinerary);
 })
 
 export default itineraryRouter;

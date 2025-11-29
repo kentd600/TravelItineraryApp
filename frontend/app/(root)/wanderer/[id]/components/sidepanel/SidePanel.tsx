@@ -6,14 +6,15 @@ import SidePanelControl from "./components/SidePanelControl";
 
 export default function WandererSidePanel () {
   const ctx = useContext(WandererContext)
-  const locationList = ctx?.wanderState?.locationList ?? null;
+  if(!ctx) throw new Error('Missing context!');
+  const locationList = ctx.wanderState.itineraryDetails ?? null;
 
   return (
     <div className={styles.sidePanel}>
       <SidePanelControl />
       <div className={styles.locationsContainer}>
         {locationList && ctx?.wanderState.appState === WdAppState.itineraryEdit ?
-        locationList.map(loc => <LocationCard locationData={loc} key={loc.city}/>) : null}
+        locationList.map((loc, idx) => <LocationCard locationData={loc} key={`${idx}_${loc.details.gid}`}/>) : null}
       </div>
     </div>
   )

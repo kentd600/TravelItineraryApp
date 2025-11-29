@@ -27,7 +27,13 @@ export const itineraryController = {
         if (!session)
             throw new Error('Unauthorized.');
         const itinerary = await dbInstance.itineraryModel.getItinerary(session.user.id, req.params.id);
-        return itinerary;
+        if (!itinerary)
+            throw new Error('Could not find itinerary.');
+        const locations = await dbInstance.locationModel.getItineraryLocations(itinerary._id.toString(), [], ['_itinerary']);
+        return {
+            itinerary,
+            locations
+        };
     }
 };
 //# sourceMappingURL=ItineraryController.js.map

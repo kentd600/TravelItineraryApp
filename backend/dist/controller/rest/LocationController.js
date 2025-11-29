@@ -1,6 +1,7 @@
 import {} from 'express';
 import { LayerId, GeocodingApi, Configuration } from '@stadiamaps/api';
 import { dbInstance } from '../../model/Models.js';
+import { normalizeFeatureProperties } from '../../utils/modelUtil.js';
 const config = new Configuration({ apiKey: process.env.STADIA_API_KEY });
 const geoApi = new GeocodingApi(config);
 const layerStates = {
@@ -21,11 +22,14 @@ export const locationController = {
         const result = await geoApi.placeDetailsV2({
             ids: [id]
         });
-        return result;
+        const normalized = normalizeFeatureProperties(result.features[0]);
+        return {
+            details: normalized
+        };
     },
     async addLocationToItinerary(req) {
         const { id, details } = req.body;
-        const result = await dbInstance.locationModel.addLocation(id, details);
+        const result = await dbInstance.locationModel.addLocation(id, details.details);
         return result;
     }
 };

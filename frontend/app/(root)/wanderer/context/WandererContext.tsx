@@ -2,6 +2,7 @@ import type { FeaturePropertiesV2 } from "@stadiamaps/api";
 import type { LngLat } from "maplibre-gl";
 import { createContext, ReactNode, useReducer, type ActionDispatch } from "react";
 import wdReducer, { wdReducerActionPayloadMap } from "../[id]/WandererReducer";
+import { LocationDetails } from "../WandererTypes";
 
 export type WdLocation = {
   coords: LngLat,
@@ -24,13 +25,13 @@ export interface WdStateVal {
   /*State of the app represented with the WdAppState enum.
   Is the user selecting a location? A POI for a locatin already added to the itinerary?
   Used to update the UI based on what the user is currently doing.*/
-  selectedLocation?: null | FeaturePropertiesV2
+  selectedLocation?: null | LocationDetails
   /*Currently selected location.
   Could be a country, city, POI, depending on the appState*/
   currentItinerary?: null | undefined | string
   /*Id of currently selected itinerary.
   Set on wanderer page load.*/
-  itineraryDetails? : null | undefined | {}[]
+  itineraryDetails? : null | undefined | LocationDetails[]
 }
 
 export type WdDispatchArgs = {

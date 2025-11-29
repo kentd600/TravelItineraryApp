@@ -2,6 +2,7 @@ import express, { Router } from 'express';
 import rateLimits from '../middleware/RateLimiter.js';
 import { locationController } from '../controller/rest/LocationController.js';
 import { wanderCache } from '../utils/cache.js';
+import { normalizeFeatureProperties } from '../utils/modelUtil.js';
 
 const locationRouter: Router = express.Router();
 
@@ -15,12 +16,12 @@ locationRouter.post('/autocomp', rateLimits.autocomplete, async (req, res) => {
 locationRouter.post('/placedetails', async (req, res) => {
   const result = await locationController.getPlaceDetails(req);
   await wanderCache.setSelectedLocation('123', '456', 'location');
-  res.status(200).json(result.features[0]);
+  res.status(200).json(result);
 })
 
 locationRouter.post('/add', async (req, res) => {
   const result = await locationController.addLocationToItinerary(req);
-  res.status(201).send();
+  res.status(201).json(result);
 })
 
 export default locationRouter;

@@ -6,7 +6,7 @@ import { instanceOfFeaturePropertiesV2, type FeaturePropertiesV2, type GeocodeRe
 import { array, string } from "zod";
 import { fa } from "zod/locales";
 
-type docSubMap = { [key: string]: string } | null | undefined
+export type docSubMap = { [key: string]: string } | null | undefined
 
 export interface LocationDetails {
   bbox: Number[],
@@ -57,22 +57,17 @@ export class LocationModel {
     this.model = mongoose.model<MongooseDocument<Location>>('location', this.schema);
   }
 
-  async addLocation(_itinerary: string, details: FeaturePropertiesV2) {
-    const toInsert: LocationDetails = {
-      bbox: details.bbox!,
-      geoCoordinates: details.geometry!.coordinates,
-      geoType: details.geometry!.type,
-      coarseLocation: details.properties.coarseLocation,
-      continent: details.properties.context?.whosonfirst.continent as docSubMap,
-      country: details.properties.context?.whosonfirst.country as docSubMap,
-      locality: details.properties.context?.whosonfirst.locality as docSubMap,
-      gid: details.properties.gid,
-      name: details.properties.name
-    }
+  async addLocation(_itinerary: string, details: LocationDetails) {
     const result = await this.model.insertOne({
       _itinerary,
-      details: toInsert
+      details
     })
+    return result;
+  }
+
+  async getItineraryLocations(_itinerary: string, select?: string[], exclude?: string[]) {
+    const selectFields = generateSelect(select || undefined, exclude || undefined);
+    const result = await this.model.find({ _itinerary }).select(selectFields);
     return result;
   }
 }

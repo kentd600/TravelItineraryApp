@@ -6,14 +6,6 @@ import WandererSidePanel from "./components/sidepanel/SidePanel";
 import { RMapContextProvider, useMap } from "maplibre-react-components";
 import { LngLat, type Map } from "maplibre-gl";
 
-// export default function Wanderer() {
-//   return (
-    
-//       <WandererInner />
-//     </RMapContextProvider>
-//   )
-// }
-
 export default function Wanderer() {
   const ctx = useContext(WandererContext);
   const map: Map | null = useMap("wanderer-map");
@@ -22,7 +14,7 @@ export default function Wanderer() {
 
   useEffect(() => {
     if (!ctx.wanderState.selectedLocation) return;
-    const coords = ctx.wanderState.selectedLocation.geometry?.coordinates
+    const coords = ctx.wanderState.selectedLocation.details.geoCoordinates
     if (!coords) return;
     map?.flyTo({
       center: new LngLat(coords[0], coords[1]),

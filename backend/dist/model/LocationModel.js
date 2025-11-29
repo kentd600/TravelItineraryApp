@@ -27,21 +27,15 @@ export class LocationModel {
         this.model = mongoose.model('location', this.schema);
     }
     async addLocation(_itinerary, details) {
-        const toInsert = {
-            bbox: details.bbox,
-            geoCoordinates: details.geometry.coordinates,
-            geoType: details.geometry.type,
-            coarseLocation: details.properties.coarseLocation,
-            continent: details.properties.context?.whosonfirst.continent,
-            country: details.properties.context?.whosonfirst.country,
-            locality: details.properties.context?.whosonfirst.locality,
-            gid: details.properties.gid,
-            name: details.properties.name
-        };
         const result = await this.model.insertOne({
             _itinerary,
-            details: toInsert
+            details
         });
+        return result;
+    }
+    async getItineraryLocations(_itinerary, select, exclude) {
+        const selectFields = generateSelect(select || undefined, exclude || undefined);
+        const result = await this.model.find({ _itinerary }).select(selectFields);
         return result;
     }
 }
