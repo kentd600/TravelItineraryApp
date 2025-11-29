@@ -30,10 +30,6 @@ export const auth: Auth<BetterAuthOptions> = betterAuth({
       secure: true,
       sameSite: 'none',
       partitioned: true
-    },
-    crossSubDomainCookies: {
-      enabled: true,
-      domain: '.vercel.app'
     }
   }
 })
