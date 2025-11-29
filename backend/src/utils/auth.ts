@@ -26,10 +26,6 @@ export const auth = betterAuth({
   defaultCookieAttributes: {
     httpOnly: true,
     secure: true,
-    sameSite: 'none'
-  },
-  crossOriginCookies: {
-    enabled: true
-  },
-  disableCSRFCheck: true
+    sameSite: 'secure'
+  }
 })
