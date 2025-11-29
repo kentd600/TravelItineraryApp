@@ -27,7 +27,7 @@ export const auth = betterAuth({
             secure: true,
             sameSite: 'none',
             partitioned: true,
-            domain: '.onrender.com',
+            domain: 'wanderer-flame.vercel.app',
             path: '/'
         }
     }
