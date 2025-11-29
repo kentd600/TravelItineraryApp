@@ -2,12 +2,12 @@ import { Suspense, useContext, useState } from 'react';
 import './maplibre-gl.css';
 import { RMap } from 'maplibre-react-components';
 import './Map.css';
-import { WandererContext } from '../../../context/WandererContext';
+import { WandererContext } from '../../../../context/WandererContext';
 import { GeocodingApi } from '@stadiamaps/api';
 
 import MapAddControl from './MapAddControl';
 import MapSearchControl from './MapSearchControl';
-import Loading from '../../../loading';
+import Loading from '../../../../../loading';
 
 export default function WandererMap () {
   const ctx = useContext(WandererContext);

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { WandererContext, WdAppState, type WdLocation } from "../../../context/WandererContext";
+import { WandererContext, WdAppState, type WdLocation } from "../../../../context/WandererContext";
 import styles from './LocationCard.module.css';
 
 export interface LocationCardProps {

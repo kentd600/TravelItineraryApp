@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { WandererContext } from "../../../context/WandererContext";
+import { WandererContext } from "../../../../context/WandererContext";
 import { useRControl } from "maplibre-react-components";
 import { createPortal } from "react-dom";
 import { LayerId, type FeaturePropertiesV2, type GeocodingApi } from "@stadiamaps/api";

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { WandererContext, WdAppState } from "../../context/WandererContext"
+import { WandererContext, WdAppState } from "../../../context/WandererContext"
 import LocationCard from "./components/LocationCard";
 import styles from "./SidePanel.module.css"
 import SidePanelControl from "./components/SidePanelControl";

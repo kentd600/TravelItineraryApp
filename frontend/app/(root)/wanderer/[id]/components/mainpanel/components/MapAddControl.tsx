@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { WandererContext } from "../../../context/WandererContext";
+import { WandererContext } from "../../../../context/WandererContext";
 import { useRControl } from "maplibre-react-components";
 import { createPortal } from "react-dom";
 

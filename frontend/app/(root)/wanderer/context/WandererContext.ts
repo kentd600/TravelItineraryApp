@@ -1,7 +1,7 @@
 import type { FeaturePropertiesV2 } from "@stadiamaps/api";
 import type { LngLat } from "maplibre-gl";
 import { createContext, type ActionDispatch } from "react";
-import { wdReducerActionPayloadMap } from "../WandererReducer";
+import { wdReducerActionPayloadMap } from "../[id]/WandererReducer";
 
 export type WdLocation = {
   coords: LngLat,

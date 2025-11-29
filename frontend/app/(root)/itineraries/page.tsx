@@ -21,7 +21,7 @@ interface itinerariesResponse {
 }
 
 function useItineraries (): itinerariesResponse {
-  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary`, fetcher)
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary`, fetcher);
 
   return {
     itineraries: data as itineraries,
@@ -32,6 +32,7 @@ function useItineraries (): itinerariesResponse {
 
 export default function page() {
   const { itineraries } = useItineraries();
+  console.log(itineraries);
   const [formState, setFormState] = useState<string>('');
 
   async function createItinerary() {
@@ -44,7 +45,6 @@ export default function page() {
         title: formState
       }
     }).json();
-    console.log(result);
     mutate(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary`);
     setFormState('');
   }
@@ -75,7 +75,7 @@ export default function page() {
       <div>
         {itineraries ? itineraries.map((i, idx) => {
           const keyVal = `itineraryCard_${idx}`;
-          return <ItineraryCard key={keyVal} id={keyVal} itinerary={i}/>
+          return <ItineraryCard key={keyVal} itinerary={i}/>
         }) : null}
       </div>
     </div>

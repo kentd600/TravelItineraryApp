@@ -1,11 +1,12 @@
 import WandererMainPanel from "./components/mainpanel/components/Map";
 import WandererLayout from "./WandererLayout";
-import { WandererContext, WdAppState, WdStateVal, type WdDispatchArgs } from "./context/WandererContext";
+import { WandererContext, WdAppState, WdStateVal, type WdDispatchArgs } from "../context/WandererContext";
 import wdReducer from "./WandererReducer";
 import { useEffect, useReducer } from "react";
 import WandererSidePanel from "./components/sidepanel/SidePanel";
 import { RMapContextProvider, useMap } from "maplibre-react-components";
 import { LngLat, type Map } from "maplibre-gl";
+import { useRouter } from "next/router";
 
 export default function Wanderer() {
   return (
