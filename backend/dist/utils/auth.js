@@ -29,6 +29,7 @@ export const auth = betterAuth({
             sameSite: 'none',
             partitioned: true
         }
-    }
+    },
+    plugins: [nextCookies()]
 });
 //# sourceMappingURL=auth.js.map
