@@ -92,6 +92,10 @@ export default function MilliwaysAuth() {
         email: '',
         password: ''
       })
+      const {
+        data: session
+      } = await authClient.getSession();
+      console.log(session);
       redirect('/wanderer', RedirectType.push);
     }
   }
