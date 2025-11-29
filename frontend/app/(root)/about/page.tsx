@@ -1,7 +1,12 @@
+import { authClient } from "@/app/_utility/auth-client"
 import Image from "next/image"
 
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const {
+    data: session
+  } = await authClient.getSession();
+  console.log(session);
   return (
     <>
       <section>
