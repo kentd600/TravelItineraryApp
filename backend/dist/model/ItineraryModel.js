@@ -3,8 +3,7 @@ import { generateSelect } from "./ModelUtility.js";
 import { dbInstance } from "./Models.js";
 const itinerarySchema = {
     _user: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
-    title: { type: String, required: true },
-    locations: { type: Array, required: true }
+    title: { type: String, required: true }
 };
 export class ItineraryModel {
     schema;
@@ -20,15 +19,6 @@ export class ItineraryModel {
             title
         });
     }
-    async addLocation(itineraryId, location, startDate, endDate) {
-        const itinerary = await this.model.findById(itineraryId);
-        itinerary?.locations?.push({
-            location: JSON.stringify(location),
-            pois: undefined,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate)
-        });
-    }
     async getUserItineraries(userId, select, exclude) {
         const selectFields = generateSelect(select || undefined, exclude || undefined);
         const itineraries = Object.keys(selectFields).length === 0 ?
@@ -36,11 +26,13 @@ export class ItineraryModel {
             await this.model.find({ _user: userId }).select(selectFields);
         return itineraries;
     }
-    async getItinerary(userId, itineraryId) {
+    async getItinerary(userId, itineraryId, select, exclude) {
+        const selectFields = generateSelect(select || undefined, exclude || undefined);
         const itinerary = await this.model
             .findById(itineraryId)
             .where('_user')
-            .equals(userId);
+            .equals(userId)
+            .select(selectFields);
         return itinerary;
     }
 }

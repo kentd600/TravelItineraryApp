@@ -1,7 +1,7 @@
 import type { FeaturePropertiesV2 } from "@stadiamaps/api";
 import type { LngLat } from "maplibre-gl";
-import { createContext, type ActionDispatch } from "react";
-import { wdReducerActionPayloadMap } from "../[id]/WandererReducer";
+import { createContext, ReactNode, useReducer, type ActionDispatch } from "react";
+import wdReducer, { wdReducerActionPayloadMap } from "../[id]/WandererReducer";
 
 export type WdLocation = {
   coords: LngLat,
@@ -27,6 +27,10 @@ export interface WdStateVal {
   selectedLocation?: null | FeaturePropertiesV2
   /*Currently selected location.
   Could be a country, city, POI, depending on the appState*/
+  currentItinerary?: null | undefined | string
+  /*Id of currently selected itinerary.
+  Set on wanderer page load.*/
+  itineraryDetails? : null | undefined | {}[]
 }
 
 export type WdDispatchArgs = {
@@ -42,3 +46,17 @@ export type WdContextType = {
 }
 
 export const WandererContext = createContext<WdContextType | null>(null);
+
+export function WdContextProvider({ children }: { children: ReactNode }) {
+  const [wanderState, dispatch] = useReducer(wdReducer, {
+    locationList: [],
+    appState: WdAppState.itineraryEdit,
+    selectedLocation: null,
+  })
+
+  return (
+    <WandererContext value={{wanderState, dispatch}}>
+      {children}
+    </WandererContext>
+  )
+}

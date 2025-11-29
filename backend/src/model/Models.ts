@@ -1,14 +1,17 @@
 import { ItineraryModel, type ItineraryModelInstance } from "./ItineraryModel.js";
+import { LocationModel, type LocationModelInstance } from "./LocationModel.js";
 import { UserModel, type UserModelInstance } from "./UserModel.js"
 import mongoose, { Document } from "mongoose";
 
 class wdrDb {
   userModel: UserModelInstance
   itineraryModel: ItineraryModelInstance
+  locationModel: LocationModelInstance
 
   constructor () {
     this.userModel = new UserModel();
     this.itineraryModel = new ItineraryModel();
+    this.locationModel = new LocationModel();
   }
 
   async connect() {

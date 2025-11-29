@@ -1,12 +1,21 @@
 import { FeaturePropertiesV2 } from "@stadiamaps/api";
 import { type WdStateVal, type WdDispatchArgs, WdAppState } from "../context/WandererContext";
 import { LngLat } from "maplibre-gl";
+import ky from "ky";
 
 export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): WdStateVal {
   switch(action.type) {
 
     case 'addLocation':
       if (!state.selectedLocation) throwReducerError('No location selected!');
+      console.log(state.currentItinerary);
+      ky.post(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc/add`, {
+        credentials: 'include',
+        json: {
+          id: state.currentItinerary,
+          details: state.selectedLocation
+        }
+      })
       const selectedCityProperties = state.selectedLocation!.properties;
       const coordinates = state.selectedLocation!.geometry?.coordinates || [0, 0];
       const continent = selectedCityProperties.context?.whosonfirst?.continent?.name || 'missing';
@@ -50,6 +59,20 @@ export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): Wd
         appState: appState!
       }
 
+    case 'setItineraryId':
+      const { itineraryId } = action.payload!;
+      return {
+        ...state,
+        currentItinerary: itineraryId
+      }
+
+    case 'setItineraryDetails':
+      const { itineraries } = action.payload!;
+      return {
+        ...state,
+        itineraryDetails: itineraries
+      }
+
     default:
       return state;
   }
@@ -59,7 +82,9 @@ export interface wdReducerActionPayloadMap {
   'addLocation': undefined,
   'selectLocation': { location: FeaturePropertiesV2 },
   'deselectLocation': undefined,
-  'setAppState': { appState: WdAppState }
+  'setAppState': { appState: WdAppState },
+  'setItineraryId': { itineraryId: string },
+  'setItineraryDetails': { itineraries: {}[] }
 }
 
 function throwReducerError(msg: string): void {

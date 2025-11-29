@@ -91,6 +91,7 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
   }
 
   const selectResult = (target: FeaturePropertiesV2) => {
+    console.log(target);
     ctx?.dispatch({type: 'selectLocation', payload: { location: target }});
   }
 

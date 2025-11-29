@@ -13,7 +13,6 @@ export interface ItineraryLocation {
 export interface Itinerary {
   _user: Schema.Types.ObjectId,
   title: string,
-  locations: ItineraryLocation[] | null | undefined
 }
 
 export interface DbItineraryResult extends Itinerary {
@@ -22,8 +21,7 @@ export interface DbItineraryResult extends Itinerary {
 
 const itinerarySchema: MongooseSchemaDef<Itinerary> = {
   _user: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
-  title: { type: String, required: true },
-  locations: { type: Array, required: true }
+  title: { type: String, required: true }
 }
 
 export type ItineraryModelInstance = InstanceType<typeof ItineraryModel>
@@ -45,16 +43,6 @@ export class ItineraryModel {
     })
   }
 
-  async addLocation(itineraryId: string, location: {}, startDate: string, endDate: string) {
-    const itinerary = await this.model.findById(itineraryId);
-    itinerary?.locations?.push({
-      location: JSON.stringify(location),
-      pois: undefined,
-      startDate: new Date(startDate),
-      endDate: new Date(endDate)
-    })
-  }
-
   async getUserItineraries(userId: string, select?: string[], exclude?: string[]) {
     const selectFields = generateSelect(select || undefined, exclude || undefined);
     const itineraries =  Object.keys(selectFields).length === 0 ?
@@ -63,11 +51,13 @@ export class ItineraryModel {
     return itineraries;
   }
 
-  async getItinerary(userId: string, itineraryId: string) {
+  async getItinerary(userId: string, itineraryId: string, select?: string[], exclude?: string []) {
+    const selectFields = generateSelect(select || undefined, exclude || undefined);
     const itinerary = await this.model
       .findById(itineraryId)
       .where('_user')
       .equals(userId)
+      .select(selectFields)
     return itinerary;
   }
 }

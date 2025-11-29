@@ -10,12 +10,17 @@ locationRouter.post('/autocomp', rateLimits.autocomplete, async (req, res) => {
   res.status(200).json(result.features);
 })
 
-locationRouter.use(rateLimits.default);
+//locationRouter.use(rateLimits.default);
 
 locationRouter.post('/placedetails', async (req, res) => {
   const result = await locationController.getPlaceDetails(req);
   await wanderCache.setSelectedLocation('123', '456', 'location');
   res.status(200).json(result.features[0]);
+})
+
+locationRouter.post('/add', async (req, res) => {
+  const result = await locationController.addLocationToItinerary(req);
+  res.status(201).send();
 })
 
 export default locationRouter;

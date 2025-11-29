@@ -1,10 +1,5 @@
 import express, { Router } from 'express';
-import rateLimits from '../middleware/RateLimiter.js';
-import { locationController } from '../controller/rest/LocationController.js';
 import { itineraryController } from '../controller/rest/ItineraryController.js';
-import { wanderCache } from '../utils/cache.js';
-import { auth } from '../utils/auth.js';
-import { fromNodeHeaders } from 'better-auth/node';
 
 const itineraryRouter: Router = express.Router();
 

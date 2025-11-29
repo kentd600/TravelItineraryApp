@@ -15,13 +15,6 @@ export const itineraryController = {
 
   async addLocation(req: Request) {
     const { itineraryId, location, startDate, endDate } = req.body;
-    const result = await dbInstance.itineraryModel.addLocation(
-      itineraryId,
-      location,
-      startDate,
-      endDate
-    );
-    console.log(result);
   },
 
   async getItineraries(req: Request) {

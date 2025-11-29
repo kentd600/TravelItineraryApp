@@ -1,5 +1,6 @@
 import { type Request } from 'express';
 import { LayerId, type FeaturePropertiesV2, GeocodingApi, Configuration } from '@stadiamaps/api';
+import { dbInstance } from '../../model/Models.js';
 
 const config = new Configuration({ apiKey: process.env.STADIA_API_KEY! });
 const geoApi = new GeocodingApi(config);
@@ -24,6 +25,12 @@ export const locationController = {
     const result = await geoApi.placeDetailsV2({
       ids: [id]
     })
+    return result;
+  },
+
+  async addLocationToItinerary(req: Request) {
+    const { id, details } = req.body;
+    const result = await dbInstance.locationModel.addLocation(id, details);
     return result;
   }
 }
