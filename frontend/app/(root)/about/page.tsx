@@ -1,3 +1,5 @@
+'use client';
+
 import { authClient } from "@/app/_utility/auth-client"
 import Image from "next/image"
 
