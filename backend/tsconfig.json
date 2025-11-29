@@ -13,7 +13,7 @@
     "lib": ["esnext"],
     "types": ["node"],
     "moduleResolution": "NodeNext",
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     //and npm install -D @types/node
 

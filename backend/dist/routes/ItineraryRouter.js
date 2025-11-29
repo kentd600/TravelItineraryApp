@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import rateLimits from '../middleware/RateLimiter.js';
 import { locationController } from '../controller/rest/LocationController.js';
 import { itineraryController } from '../controller/rest/ItineraryController.js';

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import rateLimits from "../middleware/RateLimiter.js";
 import checkAuth from "../middleware/CheckAuth.js";
 const userRouter = express.Router();

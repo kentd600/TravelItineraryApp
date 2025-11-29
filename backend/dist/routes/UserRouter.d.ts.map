@@ -1,1 +1,1 @@
-{"version":3,"file":"UserRouter.d.ts","sourceRoot":"","sources":["../../src/routes/UserRouter.ts"],"names":[],"mappings":"AAKA,QAAA,MAAM,UAAU,4CAAmB,CAAC;AAUpC,eAAe,UAAU,CAAC"}
+{"version":3,"file":"UserRouter.d.ts","sourceRoot":"","sources":["../../src/routes/UserRouter.ts"],"names":[],"mappings":"AAAA,OAAgB,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAK1C,QAAA,MAAM,UAAU,EAAE,MAAyB,CAAC;AAU5C,eAAe,UAAU,CAAC"}
