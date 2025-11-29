@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(req: Request) {
+  console.log(req);
   const sessionCookie = getSessionCookie(req)
 
   console.log(sessionCookie);
