@@ -21,7 +21,8 @@ try {
 app.use(cors({
   origin: process.env.CLIENT_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.all("/api/auth/{*any}", toNodeHandler(auth));
