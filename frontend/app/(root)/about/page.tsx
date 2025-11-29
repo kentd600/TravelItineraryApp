@@ -4,10 +4,14 @@ import { authClient } from "@/app/_utility/auth-client"
 import Image from "next/image"
 
 
-export default async function AboutPage() {
+export default function AboutPage() {
   const {
-    data: session
-  } = await authClient.getSession();
+    data: session,
+    isPending
+  } = authClient.useSession();
+
+  if (isPending) return <div>peepee</div>
+
   console.log(session);
   return (
     <>
