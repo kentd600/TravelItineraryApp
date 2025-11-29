@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc-watch -b ./tsconfig.json --onSuccess \"nodemon --env-file=.env ./dist/app.js\"",
-    "build": "npm install --omit=dev && tsc",
+    "build": "npm install && tsc",
     "prod": "node ./dist/app.js"
   },
   "keywords": [],
