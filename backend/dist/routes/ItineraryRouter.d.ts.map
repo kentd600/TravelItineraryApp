@@ -1,1 +1,1 @@
-{"version":3,"file":"ItineraryRouter.d.ts","sourceRoot":"","sources":["../../src/routes/ItineraryRouter.ts"],"names":[],"mappings":"AAAA,OAAgB,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAQ1C,QAAA,MAAM,eAAe,EAAE,MAAyB,CAAC;AAgBjD,eAAe,eAAe,CAAC"}
+{"version":3,"file":"ItineraryRouter.d.ts","sourceRoot":"","sources":["../../src/routes/ItineraryRouter.ts"],"names":[],"mappings":"AAAA,OAAgB,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAQ1C,QAAA,MAAM,eAAe,EAAE,MAAyB,CAAC;AAqBjD,eAAe,eAAe,CAAC"}

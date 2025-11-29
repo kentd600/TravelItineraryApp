@@ -26,5 +26,10 @@ export declare class ItineraryModel {
     }> & {
         __v: number;
     })[]>;
+    getItinerary(userId: string, itineraryId: string): Promise<(mongoose.Document<unknown, {}, MongooseDocument<Itinerary>, {}, {}> & Itinerary & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+        _id: mongoose.Types.ObjectId;
+    }> & {
+        __v: number;
+    }) | null>;
 }
 //# sourceMappingURL=ItineraryModel.d.ts.map

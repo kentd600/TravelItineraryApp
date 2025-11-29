@@ -36,5 +36,12 @@ export class ItineraryModel {
             await this.model.find({ _user: userId }).select(selectFields);
         return itineraries;
     }
+    async getItinerary(userId, itineraryId) {
+        const itinerary = await this.model
+            .findById(itineraryId)
+            .where('_user')
+            .equals(userId);
+        return itinerary;
+    }
 }
 //# sourceMappingURL=ItineraryModel.js.map

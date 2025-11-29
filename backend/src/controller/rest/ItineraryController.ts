@@ -29,5 +29,12 @@ export const itineraryController = {
     if (!session) throw new Error ('Unauthorized.');
     const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id);
     return itineraries;
+  },
+
+  async getIinerary(req: Request) {
+    const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) });
+    if (!session) throw new Error ('Unauthorized.');
+    const itinerary = await dbInstance.itineraryModel.getItinerary(session.user.id, req.params.id!)
+    return itinerary;
   }
 }
