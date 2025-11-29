@@ -16,6 +16,8 @@ export declare const auth: import("better-auth").Auth<{
             secure: true;
             sameSite: "none";
             partitioned: true;
+            domain: string;
+            path: string;
         };
     };
 }>;

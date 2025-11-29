@@ -26,7 +26,9 @@ export const auth = betterAuth({
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            partitioned: true
+            partitioned: true,
+            domain: 'wanderer-flame.vercel.app',
+            path: '/'
         }
     }
 });
