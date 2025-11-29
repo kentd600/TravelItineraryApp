@@ -13,7 +13,6 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  runtime: 'nodejs',
   matcher: [
     "/wanderer/:path*",
     "/itineraries/:path*"
