@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { nextCookies } from "better-auth/next-js";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 const client = new MongoClient(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}@cluster0.tf0woju.mongodb.net/?appName=Cluster0`, {
@@ -30,5 +31,6 @@ export const auth = betterAuth({
       sameSite: 'none',
       partitioned: true
     }
-  }
+  },
+  plugins: [nextCookies()]
 })
