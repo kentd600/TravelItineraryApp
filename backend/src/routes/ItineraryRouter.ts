@@ -14,8 +14,8 @@ itineraryRouter.get('/', async (req, res) => {
 })
 
 itineraryRouter.post('/create', async (req, res) => {
-  const result = await itineraryController.createNew(req);
-  res.status(200).json(result);
+  await itineraryController.createNew(req);
+  res.status(201).send();
 })
 
 itineraryRouter.post('/update', async (req, res) => {
