@@ -21,14 +21,13 @@ export const auth = betterAuth({
         }
     },
     trustedOrigins: [process.env.CLIENT_URL],
-    defaultCookieAttributes: {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-    },
-    crossOriginCookies: {
-        enabled: true
-    },
-    disableCSRFCheck: true
+    advanced: {
+        defaultCookieAttributes: {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            partitioned: true
+        }
+    }
 });
 //# sourceMappingURL=auth.js.map

@@ -23,10 +23,12 @@ export const auth = betterAuth({
     }
   },
   trustedOrigins: [process.env.CLIENT_URL!],
-  defaultCookieAttributes: {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    partitioned: true
+  advanced: {
+    defaultCookieAttributes: {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      partitioned: true
+    }
   }
 })

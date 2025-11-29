@@ -10,14 +10,13 @@ export declare const auth: import("better-auth").Auth<{
         };
     };
     trustedOrigins: string[];
-    defaultCookieAttributes: {
-        httpOnly: boolean;
-        secure: boolean;
-        sameSite: string;
+    advanced: {
+        defaultCookieAttributes: {
+            httpOnly: true;
+            secure: true;
+            sameSite: "none";
+            partitioned: true;
+        };
     };
-    crossOriginCookies: {
-        enabled: boolean;
-    };
-    disableCSRFCheck: boolean;
 }>;
 //# sourceMappingURL=auth.d.ts.map
