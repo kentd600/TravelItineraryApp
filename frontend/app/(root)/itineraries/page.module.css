@@ -1,0 +1,6 @@
+.itinerariesPage {
+  width: 100vw;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}

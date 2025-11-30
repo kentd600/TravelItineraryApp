@@ -4,6 +4,7 @@ import ky from "ky"
 import useSWR, { mutate } from "swr";
 import ItineraryCard from "./_components/itineraryCard";
 import { ChangeEvent, useState } from "react";
+import styles from './page.module.css';
 
 const fetcher = (url: string) => ky.get(url, {
   credentials: 'include',
@@ -54,8 +55,8 @@ export default function page() {
   }
 
   return (
-    <div>
-      <form>
+    <div className={styles.itinerariesPage}>
+      <form className={styles.createItineraryForm}>
         <label htmlFor="itineraryName"></label>
         <input
           type="text"

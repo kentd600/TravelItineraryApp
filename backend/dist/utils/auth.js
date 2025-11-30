@@ -27,7 +27,8 @@ export const auth = betterAuth({
             httpOnly: true,
             secure: true,
             sameSite: 'none',
-            partitioned: true
+            partitioned: true,
+            domain: process.env.BACK_END_DOMAIN
         }
     }
 });
