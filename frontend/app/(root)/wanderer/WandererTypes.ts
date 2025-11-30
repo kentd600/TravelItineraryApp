@@ -13,5 +13,7 @@ export interface LocationDetails {
     locality?: docSubMap,
     gid: string,
     name: string
-  }
+  },
+  startDate: string
+  endDate: string
 }

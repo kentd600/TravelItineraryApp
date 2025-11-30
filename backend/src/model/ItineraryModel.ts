@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
 import { generateSelect } from "./ModelUtility.js";
 import { dbInstance } from "./Models.js";
+import { error } from "console";
 
 export interface ItineraryLocation {
   pois: string[] | null | undefined
@@ -51,13 +52,26 @@ export class ItineraryModel {
     return itineraries;
   }
 
-  async getItinerary(userId: string, itineraryId: string, select?: string[], exclude?: string []) {
+  async getItinerary(_user: string, itineraryId: string, select?: string[], exclude?: string []) {
+    if (!_user || !itineraryId) console.error('Cannot get itinerary without user id and itinerary id.')
     const selectFields = generateSelect(select || undefined, exclude || undefined);
     const itinerary = await this.model
-      .findById(itineraryId)
-      .where('_user')
-      .equals(userId)
+      .findOne({
+        _id: itineraryId,
+        _user
+      })
       .select(selectFields)
     return itinerary;
+  }
+
+  async deleteItinerary(_id: string, _user: string) {
+    const itinerary = await this.model.findOne({ _id, _user });
+    if (!itinerary) throw Error('Invalid itinerary or user id.');
+    const deleteLocationsResult = await dbInstance.locationModel.model.deleteMany({
+      _itinerary: _id
+    })
+    if(!deleteLocationsResult.acknowledged) throw error('Error deleting locations associated with itinerary.');
+    const result = await this.model.deleteOne({ _id, _user });
+    return result;
   }
 }

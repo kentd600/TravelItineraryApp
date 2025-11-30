@@ -6,17 +6,6 @@ import { LocationDetails } from "../WandererTypes";
 
 export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): WdStateVal {
   switch(action.type) {
-
-    case 'addLocation':
-      if (!state.selectedLocation) throwReducerError('No location selected!');
-      ky.post(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc/add`, {
-        credentials: 'include',
-        json: {
-          id: state.currentItinerary,
-          details: state.selectedLocation
-        }
-      })
-      return state;
       // const selectedCityProperties = state.selectedLocation!.properties;
       // const coordinates = state.selectedLocation!.geometry?.coordinates || [0, 0];
       // const continent = selectedCityProperties.context?.whosonfirst?.continent?.name || 'missing';

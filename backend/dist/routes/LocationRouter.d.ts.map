@@ -1,1 +1,1 @@
-{"version":3,"file":"LocationRouter.d.ts","sourceRoot":"","sources":["../../src/routes/LocationRouter.ts"],"names":[],"mappings":"AAAA,OAAgB,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAM1C,QAAA,MAAM,cAAc,EAAE,MAAyB,CAAC;AAoBhD,eAAe,cAAc,CAAC"}
+{"version":3,"file":"LocationRouter.d.ts","sourceRoot":"","sources":["../../src/routes/LocationRouter.ts"],"names":[],"mappings":"AAAA,OAAgB,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAM1C,QAAA,MAAM,cAAc,EAAE,MAAyB,CAAC;AAuChD,eAAe,cAAc,CAAC"}

@@ -17,13 +17,14 @@ export default function SidePanelControl() {
     })
   }
 
-  console.log(ctx.wanderState.selectedLocation?.details.name)
-
   return (
     <div className={styles.panelControl}>
-      <h1>Selected Location: {ctx.wanderState.selectedLocation?.details.name ?? null}</h1>
+      <h1>
+        {ctx.wanderState.appState === WdAppState.itineraryEdit ? "Selected Location: " : "Editing Location: "}
+        {ctx.wanderState.selectedLocation?.details.name ?? null}
+      </h1>
         {ctx.wanderState.appState === WdAppState.locationEdit ?
-        <button type="button" onClick={backToItineraryEdit}>Edit Itinerary</button> : null}
+        <button type="button" onClick={backToItineraryEdit}>Back to Itinerary</button> : null}
     </div>
   )
 }

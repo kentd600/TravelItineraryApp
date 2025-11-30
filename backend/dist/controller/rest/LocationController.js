@@ -31,6 +31,25 @@ export const locationController = {
         const { id, details } = req.body;
         const result = await dbInstance.locationModel.addLocation(id, details.details);
         return result;
+    },
+    async deleteLocationFromItinerary(req) {
+        const { _id, _itinerary } = req.body;
+        const { userId } = req;
+        if (!userId)
+            throw Error('Not authenticated!');
+        const result = await dbInstance.locationModel.deleteLocation(_id, _itinerary, userId);
+        return result;
+    },
+    async updateDates(req) {
+        const { _id, _itinerary, startDate, endDate } = req.body;
+        const { userId } = req;
+        if (!userId)
+            throw Error('Not authenticated');
+        const result = await dbInstance.locationModel.updateLocation(_id, _itinerary, userId, {
+            startDate: new Date(startDate),
+            endDate: new Date(endDate)
+        });
+        return result;
     }
 };
 //# sourceMappingURL=LocationController.js.map

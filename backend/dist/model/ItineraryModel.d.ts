@@ -24,10 +24,11 @@ export declare class ItineraryModel {
     }> & {
         __v: number;
     })[]>;
-    getItinerary(userId: string, itineraryId: string, select?: string[], exclude?: string[]): Promise<(mongoose.Document<unknown, {}, MongooseDocument<Itinerary>, {}, {}> & Itinerary & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
+    getItinerary(_user: string, itineraryId: string, select?: string[], exclude?: string[]): Promise<(mongoose.Document<unknown, {}, MongooseDocument<Itinerary>, {}, {}> & Itinerary & mongoose.Document<mongoose.Types.ObjectId, any, any, Record<string, any>, {}> & Required<{
         _id: mongoose.Types.ObjectId;
     }> & {
         __v: number;
     }) | null>;
+    deleteItinerary(_id: string, _user: string): Promise<mongoose.mongo.DeleteResult>;
 }
 //# sourceMappingURL=ItineraryModel.d.ts.map

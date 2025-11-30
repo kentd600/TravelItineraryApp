@@ -31,7 +31,12 @@ const fetcher = (url: string) => ky.get(url, {
 }).json()
 
 function useItinerary(id: string) {
-  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${id}`, fetcher);
+  const {
+    data,
+    error,
+    isLoading,
+    mutate
+  } = useSWR(id ? `${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${id}` : null, fetcher);
 
   return {
     itinerary: data,
@@ -45,18 +50,24 @@ export default function WandererPage() {
   const ctx = useContext(WandererContext);
   const { isPending } = useAuthContext()!;
   const params = useParams<{ id: string }>();
+
+  useEffect(() => {
+    if(!ctx) throw new Error('Missing context!');
+    ctx.dispatch({ type: 'setItineraryId', payload: { itineraryId: params.id }});
+  },[])
+
   const {
     itinerary,
     isLoading,
     isError,
     mutate
-   } = useItinerary(params.id) as UseItineraryRes;
+  } = useItinerary(ctx?.wanderState.currentItinerary!) as UseItineraryRes;
 
   useEffect(() => {
     if (!ctx) throw new Error('Missing context!');
+    if (isLoading) return;
     if (!itinerary) return;
-    ctx.dispatch({ type: 'setItineraryId', payload: { itineraryId: params.id }})
-    ctx.dispatch({ type: 'setItineraryDetails', payload: { itineraries: itinerary.locations }})
+    ctx.dispatch({ type: 'setItineraryDetails', payload: { itineraries: itinerary.locations }});
   }, [itinerary])
 
   if (isPending) {

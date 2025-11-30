@@ -16,7 +16,7 @@ export default function MilliwaysNav() {
         <Link href="/" className={styles.navLink} draggable="false">Home</Link>
         <Link href='/about' className={styles.navLink} draggable="false">About</Link>
         {!session ? <Link href='/signup' className={styles.navLink} draggable="false">Sign Up</Link> : null}
-        {!session || error ? null : <Link href='/wanderer' className={styles.navLink} draggable="false">Wander</Link>}
+        {!session || error ? null : <Link href='/itineraries' className={styles.navLink} draggable="false">Itineraries</Link>}
       </nav>
     </div>
   )

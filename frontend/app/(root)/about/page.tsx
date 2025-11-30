@@ -7,12 +7,10 @@ import Image from "next/image"
 export default function AboutPage() {
   const {
     data: session,
-    isPending
+    isPending,
+    error
   } = authClient.useSession();
 
-  if (isPending) return <div>peepee</div>
-
-  console.log(session);
   return (
     <>
       <section>

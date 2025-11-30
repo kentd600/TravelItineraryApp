@@ -84,7 +84,6 @@ export default function MilliwaysAuth() {
     },{
       credentials: 'include'
     });
-    console.log(data);
     if (error) return;
     if (data) {
       togglePopout();
@@ -96,7 +95,7 @@ export default function MilliwaysAuth() {
         data: session
       } = await authClient.getSession();
       console.log(session);
-      redirect('/wanderer', RedirectType.push);
+      redirect('/itineraries', RedirectType.push);
     }
   }
 

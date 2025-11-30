@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Mongoose, Schema, Types } from "mongoose";
 import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
 import { generateSelect } from "./ModelUtility.js";
 import { dbInstance } from "./Models.js";
@@ -34,12 +34,21 @@ const locationDetailsSchema: MongooseSchemaDef<LocationDetails> = {
 
 export interface Location {
   _itinerary: Schema.Types.ObjectId,
-  details: {}
+  details: LocationDetails,
+  startDate: Date,
+  endDate: Date
+}
+interface LocationUpdateArg {
+  details?: Partial<LocationDetails>,
+  startDate?: Date,
+  endDate?: Date
 }
 
 const locationSchema: MongooseSchemaDef<Location> = {
   _itinerary: { type: Schema.Types.ObjectId, required: true, ref: 'itineraries' },
-  details: { type: locationDetailsSchema, required: true }
+  details: { type: locationDetailsSchema, required: true },
+  startDate: { type: Date, required: false },
+  endDate: { type: Date, required: false }
 }
 
 export interface DbLocationResult extends Location {
@@ -60,14 +69,37 @@ export class LocationModel {
   async addLocation(_itinerary: string, details: LocationDetails) {
     const result = await this.model.insertOne({
       _itinerary,
-      details
+      details,
+      startDate: null,
+      endDate: null
     })
+    return result;
+  }
+
+  async deleteLocation(_id: string, _itinerary: string, _user: string) {
+    console.log(_id, _itinerary, _user)
+    const itinerary = await dbInstance.itineraryModel.model.findOne({ _id: _itinerary, _user });
+    if (!itinerary) {
+      console.error('Itinerary and user ids must be valid.');
+      throw Error('Invalid itinerary or user id.');
+    }
+    const result = await this.model.deleteOne({ _id, _itinerary });
     return result;
   }
 
   async getItineraryLocations(_itinerary: string, select?: string[], exclude?: string[]) {
     const selectFields = generateSelect(select || undefined, exclude || undefined);
     const result = await this.model.find({ _itinerary }).select(selectFields);
+    return result;
+  }
+
+  async updateLocation(_id: string, _itinerary: string, _user: string, updateFields: LocationUpdateArg) {
+    const itinerary = await dbInstance.itineraryModel.model.findOne({ _id: _itinerary, _user });
+    if (!itinerary) {
+      console.error('Itinerary and user ids must be valid.');
+      throw Error('Itinerary and user ids must be valid.');
+    }
+    const result = await this.model.updateOne({ _id, _itinerary }, updateFields);
     return result;
   }
 }
