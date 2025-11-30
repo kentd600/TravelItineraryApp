@@ -52,7 +52,7 @@ export default function LocationCard(props: LocationCardProps) {
         <div className={styles.locationDates}>
           <h2>Dates:</h2>
           <div className={styles.dateContainer}><span>Start:</span><span>{new Date(locationData.startDate).toLocaleDateString('en-US')}</span></div>
-          <div className={styles.dateContainer}><span>End:</span><span>{new Date(locationData.startDate).toLocaleDateString('en-US')}</span></div>
+          <div className={styles.dateContainer}><span>End:</span><span>{new Date(locationData.endDate).toLocaleDateString('en-US')}</span></div>
         </div>
       </div>
       <div className={styles.controlContainer}>
