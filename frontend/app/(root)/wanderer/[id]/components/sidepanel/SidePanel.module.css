@@ -9,10 +9,32 @@
 .panelControl {
   flex: 0 0 70px;
   border-bottom: 2px solid grey;
+  background-color: #e3f0c0d7;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 3px;
 }
 
-.panelControl h1 {
-  font-size: large;
+.controlTextContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  align-items: center;
+  gap: 20px;
+}
+
+.controlPanelButton {
+  border-radius: 10px;
+  border: none;
+  background-color: var(--naturalLight);
+}
+
+.buttonContentContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
 }
 
 .locationsContainer {

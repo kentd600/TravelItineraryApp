@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Head from 'next/head';
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import MilliwaysLayout from "./_components/milliways/layout";
 import styles from './page.module.css';
 import { classNames } from "../_utility/utilityFuncs";
 import AuthProvider from "./wanderer/context/AuthContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ['latin']
 });
 
 const geistMono = Geist_Mono({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${inter.variable} ${geistMono.variable}`}>
         <AuthProvider>
           <div className={classNames(styles.appContainer)}>
             <MilliwaysLayout />

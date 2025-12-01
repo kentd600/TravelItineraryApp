@@ -38,8 +38,6 @@ export default function LocationCard(props: LocationCardProps) {
     mutate(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${ctx.wanderState.currentItinerary}`)
   }
 
-  console.log(locationData.startDate);
-
   return (
     <div
       className={styles.locationCard}

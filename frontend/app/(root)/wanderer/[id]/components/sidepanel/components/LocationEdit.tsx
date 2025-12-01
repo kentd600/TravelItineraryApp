@@ -1,12 +1,22 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import styles from './LocationEdit.module.css';
 import ky from 'ky';
-import { WandererContext } from '@/app/(root)/wanderer/context/WandererContext';
+import { WandererContext, WdAppState } from '@/app/(root)/wanderer/context/WandererContext';
+import { mutate } from 'swr';
 
 function validateDates(startDate: string, endDate: string) {
   const objStartDate = new Date(startDate);
   const objEndDate = new Date(endDate);
   return (objStartDate <= objEndDate);
+}
+
+function formatDate(date: Date) {
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const mFormatted = String(m).padStart(2, '0');
+  const dFormatted = String(d).padStart(2, '0');
+  return `${y}-${mFormatted}-${dFormatted}`;
 }
 
 export default function LocationEdit() {
@@ -20,6 +30,18 @@ export default function LocationEdit() {
   });
 
   useEffect(() => {
+    setLocationState(prev => {
+      if (!ctx?.wanderState.selectedLocation) return prev;
+      const { startDate, endDate } = ctx?.wanderState.selectedLocation;
+      return {
+        ...prev,
+        startDate: startDate !== '' ? formatDate(new Date(startDate)) : '',
+        endDate: endDate !== '' ? formatDate(new Date(endDate)) : ''
+      }
+    })
+  }, [])
+
+  useEffect(() => {
     if (locationState.startDate !== '' && locationState.endDate !== '') {
       setLocationInvalid(false);
     } else {
@@ -28,7 +50,6 @@ export default function LocationEdit() {
   }, [locationState])
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const { startDate, endDate } = locationState;
     setLocationState(prev => {
         const temp = { ...prev, [e.target.id]: e.target.value };
         if (temp.startDate === '' || temp.endDate === '') {
@@ -56,7 +77,9 @@ export default function LocationEdit() {
         endDate
       }
     })
+    mutate(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${ctx.wanderState.currentItinerary}`);
     setReqState(false);
+    ctx.dispatch({type: 'setAppState', payload: { appState: WdAppState.itineraryEdit }});
   }
 
   return (

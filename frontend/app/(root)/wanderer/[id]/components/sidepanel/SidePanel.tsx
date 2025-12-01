@@ -10,13 +10,18 @@ export default function WandererSidePanel () {
   const ctx = useContext(WandererContext)
   if(!ctx) throw new Error('Missing context!');
   const locationList = ctx.wanderState.itineraryDetails ?? null;
+  const sortedList = locationList?.sort((a, b) => {
+    const aDate = new Date(a.startDate);
+    const bDate = new Date(b.startDate);
+    return aDate.getTime() - bDate.getTime();
+  })
 
   function renderContent() {
     if (!ctx) return null;
     switch(ctx.wanderState.appState) {
       case WdAppState.itineraryEdit:
-        if (!locationList) return null;
-        return locationList.map((loc, idx) => <LocationCard locationData={loc} key={`${idx}_${loc.details.gid}`}/>);
+        if (!sortedList) return null;
+        return sortedList.map((loc, idx) => <LocationCard locationData={loc} key={`${idx}_${loc.details.gid}`}/>);
       case WdAppState.locationEdit:
         return <LocationEdit />
       default:

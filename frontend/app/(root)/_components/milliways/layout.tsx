@@ -5,10 +5,10 @@ import styles from './milliways.module.css';
 import MilliwaysAuth from "./auth";
 import MilliwaysNav from "./nav";
 
-import { Story_Script } from 'next/font/google';
+import { Londrina_Solid } from 'next/font/google';
 import { classNames } from '@/app/_utility/utilityFuncs';
 
-const font = Story_Script({
+const font = Londrina_Solid({
   weight: "400"
 })
 

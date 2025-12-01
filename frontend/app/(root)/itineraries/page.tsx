@@ -5,6 +5,7 @@ import useSWR, { mutate } from "swr";
 import ItineraryCard from "./_components/itineraryCard";
 import { ChangeEvent, useState } from "react";
 import styles from './page.module.css';
+import Loading from "../loading";
 
 const fetcher = (url: string) => ky.get(url, {
   credentials: 'include',
@@ -32,11 +33,15 @@ function useItineraries (): itinerariesResponse {
 }
 
 export default function page() {
-  const { itineraries } = useItineraries();
-  console.log(itineraries);
+  const { itineraries, isLoading } = useItineraries();
   const [formState, setFormState] = useState<string>('');
 
+  if (isLoading) {
+    return <Loading />
+  }
+
   async function createItinerary() {
+    if (formState === '') return;
     const result: itineraries = await ky.post(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/create`, {
       headers: {
         'Content-Type': 'application/json'
@@ -57,14 +62,16 @@ export default function page() {
   return (
     <div className={styles.itinerariesPage}>
       <form className={styles.createItineraryForm}>
-        <label htmlFor="itineraryName"></label>
-        <input
-          type="text"
-          id="itineraryName"
-          name="itineraryName"
-          onChange={handleChange}
-          value={formState}
-        />
+        <div className={styles.titleInputContainer}>
+          <label htmlFor="itineraryName">Give your itinerary a name:</label>
+          <input
+            type="text"
+            id="itineraryName"
+            name="itineraryName"
+            onChange={handleChange}
+            value={formState}
+          />
+        </div>
         <button
           type="button"
           onClick={createItinerary}
@@ -72,8 +79,8 @@ export default function page() {
             Create New Itinerary
         </button>
       </form>
-      <p>Or, continue with one of your existing itineraries:</p>
-      <div>
+      <div className={styles.itinerariesContainer}>
+        <p>Or, continue with one of your existing itineraries:</p>
         {itineraries ? itineraries.map((i, idx) => {
           const keyVal = `itineraryCard_${idx}`;
           return <ItineraryCard key={keyVal} itinerary={i}/>

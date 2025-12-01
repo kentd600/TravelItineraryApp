@@ -1,7 +1,4 @@
-import { FeaturePropertiesV2 } from "@stadiamaps/api";
 import { type WdStateVal, type WdDispatchArgs, WdAppState } from "../context/WandererContext";
-import { LngLat } from "maplibre-gl";
-import ky from "ky";
 import { LocationDetails } from "../WandererTypes";
 
 export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): WdStateVal {

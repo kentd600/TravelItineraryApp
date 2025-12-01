@@ -1,14 +1,3 @@
-:root {
-  --lightLime: #d0f0c0;
-  --lime: #b2ec5d;
-  --limePop: #a3f02f;
-  --blue: #6082b6;
-  --space: #4a646c;
-  --deepSpace: #2a3439;
-  --compText: #6C524A;
-  --navHeight: max(6vh, 60px);
-}
-
 .layoutSpacer {
   height:var(--navHeight);
 }
@@ -23,6 +12,13 @@
   font-size: x-large;
   flex: 0 1 var(--navHeight);
   z-index: 2;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.layoutContainer::-webkit-scrollbar {
+  display: none;
 }
 
 .navContainer {
