@@ -7,6 +7,7 @@
 .contentContainer {
   z-index: 1;
   height: calc(100% - var(--navHeight));
+  display: flex;
 }
 
 .videoCanvas {

@@ -12,13 +12,6 @@
   font-size: x-large;
   flex: 0 1 var(--navHeight);
   z-index: 2;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.layoutContainer::-webkit-scrollbar {
-  display: none;
 }
 
 .navContainer {

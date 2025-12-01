@@ -7,7 +7,6 @@ import { useGSAP } from '@gsap/react';
 import { classNames } from '@/app/_utility/utilityFuncs';
 import { authClient } from '@/app/_utility/auth-client';
 import { redirect, RedirectType } from 'next/navigation';
-import { useAuthContext } from '../../wanderer/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 gsap.registerPlugin(useGSAP);

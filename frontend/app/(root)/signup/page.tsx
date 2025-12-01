@@ -20,10 +20,6 @@ interface userInput {
   name: inputField
 }
 
-const font = Story_Script({
-  weight: "400"
-})
-
 async function signUp(userInfo: userInfo) {
   const { email, password, name } = userInfo;
   const { data, error } = await authClient.signUp.email({
@@ -65,7 +61,7 @@ export default function() {
   }
 
   return (
-    <div className={classNames(styles.signupPage, font.className)}>
+    <div className={classNames(styles.signupPage)}>
       <div className={styles.signupInfoContainer}>
         <h2>Sign Up:</h2>
         <p>Sign up to start building travel itineraries with Wanderer.</p>
