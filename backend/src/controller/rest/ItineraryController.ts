@@ -14,17 +14,18 @@ export const itineraryController = {
   },
 
   async getItineraries(req: Request) {
-    const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) });
-    if (!session) throw new Error ('Unauthorized.');
-    const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id);
+    const { userId } = req;
+    console.log(userId);
+    if(!userId) throw Error('Unauthorized.');
+    const itineraries = await dbInstance.itineraryModel.getUserItineraries(userId);
+    console.log(itineraries);
     return itineraries;
   },
 
   async getIinerary(req: Request) {
-    const { userId } = req
+    const { userId } = req;
     if (!userId) throw new Error ('Unauthorized.');
-    console.log(userId, req.params.id);
-    const itinerary = await dbInstance.itineraryModel.getItinerary(userId, req.params.id!)
+    const itinerary = await dbInstance.itineraryModel.getItinerary(userId, req.params.id!);
     if (!itinerary) throw new Error('Could not find itinerary.');
     const locations = await dbInstance.locationModel.getItineraryLocations(itinerary._id.toString(), [], ['_itinerary']);
     return {

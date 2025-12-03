@@ -1,7 +1,7 @@
 'use client';
 
 import Wanderer from "./Wanderer";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Loading from "../../loading";
 import { Suspense, useContext, useEffect } from "react";
 import { useAuthContext } from "../context/AuthContext";
@@ -46,10 +46,11 @@ function useItinerary(id: string) {
   }
 }
 
-export default function WandererPage() {
+export default function WandererOuter() {
   const ctx = useContext(WandererContext);
   const { isPending } = useAuthContext()!;
   const params = useParams<{ id: string }>();
+  const router = useRouter();
 
   useEffect(() => {
     if(!ctx) throw new Error('Missing context!');
@@ -70,7 +71,13 @@ export default function WandererPage() {
     ctx.dispatch({ type: 'setItineraryDetails', payload: { itineraries: itinerary.locations }});
   }, [itinerary])
 
-  if (isPending) {
+  useEffect(() => {
+    if (!isLoading && isError) {
+      router.replace('/itineraries');
+    }
+  },[isLoading, isError])
+
+  if (isPending || isLoading) {
     return (
       <Loading />
     )

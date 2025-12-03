@@ -14,9 +14,16 @@ itineraryRouter.post('/create', async (req, res) => {
   res.status(201).send();
 })
 
-itineraryRouter.get('/:id', async (req, res) => {
-  const itinerary = await itineraryController.getIinerary(req);
-  res.status(200).json(itinerary);
+itineraryRouter.get('/:id', async (req, res, next) => {
+  try {
+    const itinerary = await itineraryController.getIinerary(req);
+    res.status(200).json(itinerary);
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e.message)
+      next(e);
+    }
+  }
 })
 
 itineraryRouter.delete('/:id', async (req, res, next) => {

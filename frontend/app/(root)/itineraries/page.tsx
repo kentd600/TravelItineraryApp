@@ -3,9 +3,11 @@
 import ky from "ky"
 import useSWR, { mutate } from "swr";
 import ItineraryCard from "./_components/itineraryCard";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styles from './page.module.css';
 import Loading from "../loading";
+import { authClient } from "@/app/_utility/auth-client";
+import { useRouter } from "next/navigation";
 
 const fetcher = (url: string) => ky.get(url, {
   credentials: 'include',
@@ -33,10 +35,17 @@ function useItineraries (): itinerariesResponse {
 }
 
 export default function page() {
-  const { itineraries, isLoading } = useItineraries();
+  const { itineraries, isError, isLoading } = useItineraries();
   const [formState, setFormState] = useState<string>('');
+  const router = useRouter();
+  const { data: session, isPending, error } = authClient.useSession();
+  useEffect(() => {
+    if(!isPending && !session) {
+      router.replace('/');
+    }
+  },[session, isPending, router]);
 
-  if (isLoading) {
+  if (isLoading || isPending) {
     return <Loading />
   }
 

@@ -56,11 +56,12 @@ export class ItineraryModel {
     if (!_user || !itineraryId) console.error('Cannot get itinerary without user id and itinerary id.')
     const selectFields = generateSelect(select || undefined, exclude || undefined);
     const itinerary = await this.model
-      .findOne({
-        _id: itineraryId,
-        _user
-      })
-      .select(selectFields)
+    .findOne({
+      _id: itineraryId,
+      _user
+    })
+    .select(selectFields);
+    console.log(itinerary)
     return itinerary;
   }
 

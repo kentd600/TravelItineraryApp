@@ -36,6 +36,10 @@ export default function MilliwaysAuth() {
   const authPopOut = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP();
   const [poppedState, setPoppedState] = useState(false);
+  const [errorState, setErrorState] = useState({
+    isError: false,
+    message: ''
+  })
   const [inputState, setInputState] = useState({
     email: '',
     password: ''
@@ -84,17 +88,28 @@ export default function MilliwaysAuth() {
     },{
       credentials: 'include'
     });
-    if (error) return;
+    if(error) {
+      let message: string;
+      switch(error.status) {
+        case 401:
+          message = "Password or email incorrect."
+          break;
+        default:
+          message = "Something went wrong."
+          break;
+      }
+      setErrorState(prev => ({
+        isError: true,
+        message
+      }))
+      return;
+    }
     if (data) {
       togglePopout();
       setInputState({
         email: '',
         password: ''
       })
-      const {
-        data: session
-      } = await authClient.getSession();
-      console.log(session);
       redirect('/itineraries', RedirectType.push);
     }
   }
@@ -143,6 +158,7 @@ export default function MilliwaysAuth() {
               <label htmlFor="password">Password</label>
               <input type="password" name='password' onChange={handleInput} value={inputState.password}/>
             </div>
+            <p className={styles.errorMessage}>{errorState.isError ? errorState.message : null}</p>
             <button
               className={classNames(styles.milliButton, styles.loginButton)}
               type='button'
