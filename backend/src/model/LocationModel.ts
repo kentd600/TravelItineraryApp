@@ -3,7 +3,7 @@ import type { MongooseDocument, MongooseSchemaDef } from "./MUtilTypes.js";
 import { generateSelect } from "./ModelUtility.js";
 import { dbInstance } from "./Models.js";
 import { instanceOfFeaturePropertiesV2, type FeaturePropertiesV2, type GeocodeResponseEnvelopePropertiesV2 } from "@stadiamaps/api";
-import { array, string } from "zod";
+import { array, boolean, string } from "zod";
 import { fa } from "zod/locales";
 
 export type docSubMap = { [key: string]: string } | null | undefined
@@ -36,19 +36,22 @@ export interface Location {
   _itinerary: Schema.Types.ObjectId,
   details: LocationDetails,
   startDate: Date,
-  endDate: Date
+  endDate: Date,
+  justAdded: Boolean,
 }
 interface LocationUpdateArg {
   details?: Partial<LocationDetails>,
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
+  justAdded?: Boolean
 }
 
 const locationSchema: MongooseSchemaDef<Location> = {
   _itinerary: { type: Schema.Types.ObjectId, required: true, ref: 'itineraries' },
   details: { type: locationDetailsSchema, required: true },
   startDate: { type: Date, required: false },
-  endDate: { type: Date, required: false }
+  endDate: { type: Date, required: false },
+  justAdded: { type: Boolean, required: true }
 }
 
 export interface DbLocationResult extends Location {
@@ -71,7 +74,8 @@ export class LocationModel {
       _itinerary,
       details,
       startDate: null,
-      endDate: null
+      endDate: null,
+      justAdded: true
     })
     return result;
   }

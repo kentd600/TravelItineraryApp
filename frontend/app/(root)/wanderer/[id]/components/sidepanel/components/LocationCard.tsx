@@ -49,8 +49,8 @@ export default function LocationCard(props: LocationCardProps) {
         </div>
         <div className={styles.locationDates}>
           <h2>Dates:</h2>
-          <div className={styles.dateContainer}><span>Start:</span><span>{new Date(locationData.startDate).toLocaleDateString('en-US')}</span></div>
-          <div className={styles.dateContainer}><span>End:</span><span>{new Date(locationData.endDate).toLocaleDateString('en-US')}</span></div>
+          <div className={styles.dateContainer}><span>Start:</span><span>{locationData.startDate ? new Date(locationData.startDate).toLocaleDateString('en-US') : null}</span></div>
+          <div className={styles.dateContainer}><span>End:</span><span>{locationData.endDate ? new Date(locationData.endDate).toLocaleDateString('en-US') : null}</span></div>
         </div>
       </div>
       <div className={styles.controlContainer}>

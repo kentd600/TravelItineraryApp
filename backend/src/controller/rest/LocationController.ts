@@ -22,7 +22,7 @@ export const locationController = {
     return result;
   },
 
-  async getPlaceDetails(req: Request): Promise<Omit<DbLocationResult, '_id' | '_itinerary' | 'startDate' | 'endDate'>> {
+  async getPlaceDetails(req: Request): Promise<Omit<DbLocationResult, '_id' | '_itinerary' | 'startDate' | 'endDate' | 'justAdded'>> {
     const { id } = req.body;
     const result = await geoApi.placeDetailsV2({
       ids: [id]
@@ -48,12 +48,13 @@ export const locationController = {
   },
 
   async updateDates(req: Request) {
-    const { _id, _itinerary, startDate, endDate } = req.body;
+    const { _id, _itinerary, startDate, endDate, justAdded } = req.body;
     const { userId } = req;
     if (!userId) throw Error('Not authenticated');
     const result = await dbInstance.locationModel.updateLocation(_id, _itinerary, userId, {
       startDate: new Date(startDate),
-      endDate: new Date(endDate)
+      endDate: new Date(endDate),
+      justAdded
     })
     return result;
   }

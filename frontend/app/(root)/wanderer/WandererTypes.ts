@@ -15,5 +15,6 @@ export interface LocationDetails {
     name: string
   },
   startDate: string
-  endDate: string
+  endDate: string,
+  justAdded: Boolean
 }

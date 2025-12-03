@@ -30,13 +30,14 @@ export default function LocationEdit() {
   });
 
   useEffect(() => {
+    console.log(ctx?.wanderState.selectedLocation);
     setLocationState(prev => {
       if (!ctx?.wanderState.selectedLocation) return prev;
-      const { startDate, endDate } = ctx?.wanderState.selectedLocation;
+      const { startDate, endDate, justAdded } = ctx?.wanderState.selectedLocation;
       return {
         ...prev,
-        startDate: startDate !== '' ? formatDate(new Date(startDate)) : '',
-        endDate: endDate !== '' ? formatDate(new Date(endDate)) : ''
+        startDate: justAdded ? '' : formatDate(new Date(startDate)),
+        endDate: justAdded ? '' : formatDate(new Date(endDate))
       }
     })
   }, [])
@@ -57,7 +58,22 @@ export default function LocationEdit() {
         } else if (validateDates(temp.startDate, temp.endDate)) {
           return { ...prev, [e.target.id]: e.target.value }
         } else {
-          return prev
+          switch (e.target.id) {
+            case 'startDate':
+              return {
+                ...prev,
+                [e.target.id]: e.target.value,
+                endDate: ''
+              }
+            case 'endDate':
+              return {
+                ...prev,
+                [e.target.id]: e.target.value,
+                startDate: ''
+              }
+            default:
+              return prev
+          }
         }
       }
     )
@@ -74,7 +90,8 @@ export default function LocationEdit() {
         _id: ctx?.wanderState.selectedLocation?._id,
         _itinerary: ctx?.wanderState.currentItinerary,
         startDate,
-        endDate
+        endDate,
+        justAdded: false
       }
     })
     mutate(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${ctx.wanderState.currentItinerary}`);
