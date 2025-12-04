@@ -30,7 +30,6 @@ export default function LocationEdit() {
   });
 
   useEffect(() => {
-    console.log(ctx?.wanderState.selectedLocation);
     setLocationState(prev => {
       if (!ctx?.wanderState.selectedLocation) return prev;
       const { startDate, endDate, justAdded } = ctx?.wanderState.selectedLocation;

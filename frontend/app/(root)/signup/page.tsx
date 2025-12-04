@@ -26,7 +26,7 @@ async function signUp(userInfo: userInfo) {
   email,
   password,
   name,
-  callbackURL: '/wanderer'
+  callbackURL: '/itineraries'
   }, {
     onRequest: (ctx) => {
       console.log(ctx);
@@ -57,7 +57,6 @@ export default function() {
     setFormState(prev => ({
       ...prev, [evt.target.name]: evt.target.value
     }))
-    console.log(formState);
   }
 
   return (

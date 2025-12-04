@@ -9,9 +9,17 @@ itineraryRouter.get('/', async (req, res) => {
   res.status(200).json(result);
 })
 
-itineraryRouter.post('/create', async (req, res) => {
-  await itineraryController.createNew(req);
-  res.status(201).send();
+itineraryRouter.post('/create', async (req, res, next) => {
+  try {
+    const result = await itineraryController.createNew(req);
+    res.status(201).json({
+      id: result._id
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      next(e);
+    }
+  }
 })
 
 itineraryRouter.get('/:id', async (req, res, next) => {

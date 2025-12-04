@@ -8,9 +8,8 @@ export const itineraryController = {
     const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) });
     const { title } = req.body;
     if (!session) throw new Error('Unauthorized.');
-    await dbInstance.itineraryModel.createItinerary(session.user.id, title);
-    const itineraries = await dbInstance.itineraryModel.getUserItineraries(session.user.id, ['title']);
-    return itineraries;
+    const result = await dbInstance.itineraryModel.createItinerary(session.user.id, title);
+    return result;
   },
 
   async getItineraries(req: Request) {

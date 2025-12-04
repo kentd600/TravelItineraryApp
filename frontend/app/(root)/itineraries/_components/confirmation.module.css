@@ -1,0 +1,36 @@
+.confirmationOverlay {
+  position: absolute;
+  background-color: #47474791;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContainer {
+  border-radius: 25px;
+  background-color: var(--naturalLight);
+  padding: 25px;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  gap: 10px;
+}
+
+.modalContainer > p {
+  color: var(--cautionText);
+}
+
+.cancelButton {
+  background-color: var(--lime);
+  color: var(--compText);
+}
+
+.confirmButton {
+  background-color: var(--lightLime);
+  color: #f56565;
+}

@@ -42,6 +42,7 @@ export class ItineraryModel {
       locations: [],
       title
     })
+    return result;
   }
 
   async getUserItineraries(userId: string, select?: string[], exclude?: string[]) {

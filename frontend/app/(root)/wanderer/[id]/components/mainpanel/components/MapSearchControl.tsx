@@ -107,7 +107,6 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
             id: autocompState.results[0].properties.gid
           }
         }).json();
-        console.log(res);
         selectResult(res);
         break;
       default: null
@@ -124,7 +123,6 @@ export default function MapSearchControl ({ api }: MapSearchControlProps) {
           id: selectedResult.properties.gid
         }
       }).json();
-      console.log(res);
       selectResult(res);
     }
   }
