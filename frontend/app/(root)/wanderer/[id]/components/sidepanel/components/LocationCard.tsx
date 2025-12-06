@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { WandererContext, WdAppState } from "../../../../context/WandererContext";
 import styles from './LocationCard.module.css';
 import { LocationDetails } from "@/app/(root)/wanderer/WandererTypes";
 import ky from "ky";
 import { mutate } from "swr";
 import Image from "next/image";
+import { exitCode } from "process";
 
 export interface LocationCardProps {
   locationData: LocationDetails,
@@ -13,6 +14,12 @@ export interface LocationCardProps {
 
 export default function LocationCard(props: LocationCardProps) {
   const { locationData, nextStartDate } = props;
+  const container = useRef<HTMLDivElement>(null);
+  const mouseCoords = useRef({
+    x: 0,
+    y: 0
+  })
+  const dragging = useRef(false);
   const ctx = useContext(WandererContext);
   const [reqState, setReqState] = useState(false);
   
@@ -54,9 +61,49 @@ export default function LocationCard(props: LocationCardProps) {
     return null;
   }
 
+  function updateMouseCoords(evt: MouseEvent) {
+    mouseCoords.current = { x: evt.clientX, y: evt.clientY };
+  }
+
+  function animateDrag(timestamp: number, start: number[]) {
+    if (!container.current) return;
+    const x = mouseCoords.current.x - start[0];
+    const y = mouseCoords.current.y - start[1];
+    container.current.style.transform = `translateY(${y}px)`
+    if (dragging.current) {
+      requestAnimationFrame(timestamp => animateDrag(timestamp, start));
+    } else {
+      container.current.style.transform = "translateY(0px)"
+      container.current.style.position = 'relative';
+    }
+  }
+
+  function handleDrag(evt: React.MouseEvent<HTMLDivElement>) {
+    if (!container.current) return;
+    const start = [evt.clientX, evt.clientY];
+    mouseCoords.current = { x: evt.clientX, y: evt.clientY };
+    window.addEventListener('mouseup', handleDragEnd);
+    window.addEventListener('mousemove', updateMouseCoords);
+    dragging.current = true;
+    const curWidth = container.current.clientWidth;
+    container.current.style.zIndex = '9999';
+    container.current.style.position = 'absolute';
+    container.current.style.width = `${curWidth}px`;
+    requestAnimationFrame(timestamp => animateDrag(timestamp, start));
+  }
+
+  function handleDragEnd() {
+    container.current!.style.zIndex = '1';
+    window.removeEventListener('mouseup', handleDragEnd);
+    window.removeEventListener('mousemove', updateMouseCoords);
+    dragging.current = false;
+  }
+
   return (
     <div
       className={styles.locationCard}
+      onMouseDown={handleDrag}
+      ref={container}
     >
       <div className={styles.infoContainer}>
         <div className={styles.locationDetails}>

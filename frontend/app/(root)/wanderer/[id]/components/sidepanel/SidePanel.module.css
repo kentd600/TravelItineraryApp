@@ -40,4 +40,5 @@
 .locationsContainer {
   flex: 0 0 calc(100% - 70px);
   overflow-y: scroll;
+  position: relative;
 }

@@ -18,7 +18,13 @@ export default function WandererSidePanel () {
         return ctx.wanderState.itineraryDetailsSorted.map((loc, idx) => {
           const nextLocation = idx + 1;
           const nextStartDate = ctx.wanderState.itineraryDetailsSorted![nextLocation] ? ctx.wanderState.itineraryDetailsSorted![nextLocation].startDate : null;
-          return <LocationCard locationData={loc} nextStartDate={nextStartDate} key={`${idx}_${loc.details.gid}`}/>
+          return (
+            <LocationCard
+              locationData={loc} 
+              nextStartDate={nextStartDate}
+              key={`${idx}_${loc.details.gid}`}
+            />
+          )
         });
       case WdAppState.locationEdit:
         return <LocationEdit />
