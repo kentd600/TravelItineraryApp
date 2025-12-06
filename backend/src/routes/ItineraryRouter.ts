@@ -4,9 +4,15 @@ import { ERROR_CODES } from 'better-auth/plugins';
 
 const itineraryRouter: Router = express.Router();
 
-itineraryRouter.get('/', async (req, res) => {
-  const result = await itineraryController.getItineraries(req);
-  res.status(200).json(result);
+itineraryRouter.get('/', async (req, res, next) => {
+  try {
+    const result = await itineraryController.getItineraries(req);
+    res.status(200).json(result);
+  } catch (e) {
+    if (e instanceof Error) {
+      next(e);
+    }
+  }
 })
 
 itineraryRouter.post('/create', async (req, res, next) => {

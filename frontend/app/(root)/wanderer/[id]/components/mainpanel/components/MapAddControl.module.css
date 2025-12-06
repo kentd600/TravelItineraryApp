@@ -1,0 +1,8 @@
+.addButton {
+  padding: 30px;
+  color: var(--compText);
+  background-color: var(--lime);
+  font-size: 2rem;
+  border-radius: 50px;
+  box-shadow: 0 0 5px var(--deepSpace);
+}

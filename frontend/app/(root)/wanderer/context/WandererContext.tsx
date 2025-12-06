@@ -19,8 +19,6 @@ export enum WdAppState {
 }
 
 export interface WdStateVal {
-  locationList: WdLocation[],
-  //List of locations in the itinerary.
   appState: WdAppState,
   /*State of the app represented with the WdAppState enum.
   Is the user selecting a location? A POI for a locatin already added to the itinerary?
@@ -32,6 +30,7 @@ export interface WdStateVal {
   /*Id of currently selected itinerary.
   Set on wanderer page load.*/
   itineraryDetails? : null | undefined | LocationDetails[]
+  itineraryDetailsSorted? : null | undefined | LocationDetails[]
 }
 
 export type WdDispatchArgs = {
@@ -50,7 +49,6 @@ export const WandererContext = createContext<WdContextType | null>(null);
 
 export function WdContextProvider({ children }: { children: ReactNode }) {
   const [wanderState, dispatch] = useReducer(wdReducer, {
-    locationList: [],
     appState: WdAppState.itineraryEdit,
     selectedLocation: null,
   })

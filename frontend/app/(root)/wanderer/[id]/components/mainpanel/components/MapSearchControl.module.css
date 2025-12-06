@@ -19,6 +19,21 @@
   appearance: none;
   outline: none;
   border: none;
+  font-size: 1rem;
+}
+
+.selected {
+  background-color: var(--lime);
+}
+
+.autocompleteResultContainer {
+  padding: 2px;
+  border-radius: 5px;
+}
+
+.resultText {
+  font-size: 0.8rem;
+  user-select: none;
 }
 
 /*.searchControlInput:focus {

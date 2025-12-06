@@ -67,7 +67,7 @@ export default function WandererOuter() {
   useEffect(() => {
     if (!ctx) throw new Error('Missing context!');
     if (isLoading) return;
-    if (!itinerary) return;
+    if (!itinerary) return; //Return early if itinerary has no locations.
     ctx.dispatch({ type: 'setItineraryDetails', payload: { itineraries: itinerary.locations }});
   }, [itinerary])
 

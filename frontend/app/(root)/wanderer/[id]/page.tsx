@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "../../loading";
 
-export default function page() {
+export default function WandererPage() {
   const { data: session, isPending, error } = authClient.useSession();
   const router = useRouter();
   useEffect(() => {

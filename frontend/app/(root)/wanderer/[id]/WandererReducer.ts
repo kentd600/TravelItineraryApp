@@ -57,7 +57,12 @@ export default function wdReducer(state: WdStateVal, action: WdDispatchArgs): Wd
       const { itineraries } = action.payload!;
       return {
         ...state,
-        itineraryDetails: itineraries
+        itineraryDetails: itineraries,
+        itineraryDetailsSorted: itineraries.sort((a, b) => {
+          const aDate = new Date(a.startDate);
+          const bDate = new Date(b.startDate);
+          return aDate.getTime() - bDate.getTime();
+        })
       }
 
     default:

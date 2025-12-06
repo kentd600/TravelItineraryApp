@@ -4,6 +4,7 @@ import { useRControl } from "maplibre-react-components";
 import { createPortal } from "react-dom";
 import ky from "ky";
 import { mutate } from "swr";
+import styles from './MapAddControl.module.css';
 
 export default function MapAddControl () {
   const ctx = useContext(WandererContext);
@@ -33,7 +34,7 @@ export default function MapAddControl () {
       type='button'
       value='Add to Itinerary'
       onClick={handleClick}
-      className='rmap-control__add-button'
+      className={`globalButtonStyle ${styles.addButton}`}
       disabled={addingState}
     />,
     container

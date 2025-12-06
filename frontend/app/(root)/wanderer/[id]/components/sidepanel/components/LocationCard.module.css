@@ -31,3 +31,20 @@
   gap: 3px;
   justify-content: space-between;
 }
+
+.warningContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.warningText {
+  text-align: center;
+  color: var(--cautionText);
+  font-size: 0.9rem;
+}
+
+.warningIcon {
+  filter: brightness(0) saturate(100%) invert(65%) sepia(22%) saturate(6074%) hue-rotate(320deg) brightness(100%) contrast(93%);
+}

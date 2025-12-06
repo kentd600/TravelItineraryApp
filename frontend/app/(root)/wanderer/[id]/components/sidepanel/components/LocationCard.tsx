@@ -4,13 +4,15 @@ import styles from './LocationCard.module.css';
 import { LocationDetails } from "@/app/(root)/wanderer/WandererTypes";
 import ky from "ky";
 import { mutate } from "swr";
+import Image from "next/image";
 
 export interface LocationCardProps {
-  locationData: LocationDetails
+  locationData: LocationDetails,
+  nextStartDate: string | null
 }
 
 export default function LocationCard(props: LocationCardProps) {
-  const { locationData } = props;
+  const { locationData, nextStartDate } = props;
   const ctx = useContext(WandererContext);
   const [reqState, setReqState] = useState(false);
   
@@ -38,6 +40,20 @@ export default function LocationCard(props: LocationCardProps) {
     mutate(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${ctx.wanderState.currentItinerary}`)
   }
 
+  function renderWarning() {
+    if (nextStartDate) {
+      if (new Date(locationData.endDate) > new Date(nextStartDate)) {
+        return (
+          <div className={styles.warningContainer}>
+            <Image width={20} height={20} src='/svg/caution.svg' alt='Caution icon' className={styles.warningIcon} />
+            <p className={styles.warningText}>End date coincides with start date for next location!</p>
+          </div>
+        )
+      }
+    }
+    return null;
+  }
+
   return (
     <div
       className={styles.locationCard}
@@ -53,6 +69,7 @@ export default function LocationCard(props: LocationCardProps) {
           <div className={styles.dateContainer}><span>End:</span><span>{locationData.endDate ? new Date(locationData.endDate).toLocaleDateString('en-US') : null}</span></div>
         </div>
       </div>
+      {renderWarning()}
       <div className={styles.controlContainer}>
         <button type="button" onClick={enterLocationEdit}>Edit</button>
         <button type="button" onClick={handleDelete}>Delete</button>
