@@ -16,5 +16,15 @@
 }
 
 .videoEnd {
-  height: 500vh;
+  height: 300vh;
+}
+
+.logoSvgContainer {
+  position: absolute;
+  top: 500px;
+  width: 100%;
+}
+
+.wandererHero {
+  margin: 0 auto;
 }

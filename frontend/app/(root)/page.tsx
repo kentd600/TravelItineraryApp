@@ -25,6 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const lenisRef = useRef<LenisRef>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const logoContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -72,6 +73,20 @@ export default function Home() {
       }
     })
 
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#videoEnd",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1
+      }
+    })
+
+    timeline.addLabel('start')
+      .from(styles.logoSvgContainer, { scale: 0.3 })
+      .to(styles.logoSvgContainer, { sale: 2 })
+      .addLabel('end');
+
     images[0].onload = () => drawScaledImage(images[0], canvas, canvasCtx);
 
     lenisRef.current?.lenis?.on("scroll", ScrollTrigger.update);
@@ -96,6 +111,16 @@ export default function Home() {
             ref={canvasRef}
             className={styles.videoCanvas}
           />
+          <div className={styles.logoSvgContainer} ref={logoContainerRef}>
+            <Image
+              className={styles.wandererHero}
+              src='/svg/WandererHeroFinal.svg'
+              height={Math.min(window.innerWidth - 100, 1000) * 0.6}
+              width={Math.min(window.innerWidth - 100, 1000)}
+              alt='Wanderer logo.'
+              unoptimized
+            />
+          </div>
           <div id='videoEnd' className={styles.videoEnd}></div>
         </section>
       </ReactLenis>
