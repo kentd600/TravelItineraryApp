@@ -15,6 +15,7 @@ export interface LocationCardProps {
 export default function LocationCard(props: LocationCardProps) {
   const { locationData, nextStartDate } = props;
   const container = useRef<HTMLDivElement>(null);
+  const outerContainer = useRef<HTMLDivElement>(null);
   const mouseCoords = useRef({
     x: 0,
     y: 0
@@ -79,7 +80,7 @@ export default function LocationCard(props: LocationCardProps) {
   }
 
   function handleDrag(evt: React.MouseEvent<HTMLDivElement>) {
-    if (!container.current) return;
+    if (!container.current || !outerContainer.current) return;
     const start = [evt.clientX, evt.clientY];
     mouseCoords.current = { x: evt.clientX, y: evt.clientY };
     window.addEventListener('mouseup', handleDragEnd);
@@ -89,38 +90,46 @@ export default function LocationCard(props: LocationCardProps) {
     container.current.style.zIndex = '9999';
     container.current.style.position = 'absolute';
     container.current.style.width = `${curWidth}px`;
+    outerContainer.current.style.height = 'auto';
     requestAnimationFrame(timestamp => animateDrag(timestamp, start));
   }
 
   function handleDragEnd() {
-    container.current!.style.zIndex = '1';
+    if (!container.current || !outerContainer.current) return;
+    outerContainer.current.style.height = '170px';
+    container.current.style.zIndex = '1';
+    container.current.style.position = 'relative';
     window.removeEventListener('mouseup', handleDragEnd);
     window.removeEventListener('mousemove', updateMouseCoords);
     dragging.current = false;
   }
 
   return (
-    <div
-      className={styles.locationCard}
-      onMouseDown={handleDrag}
-      ref={container}
-    >
-      <div className={styles.infoContainer}>
-        <div className={styles.locationDetails}>
-          <h2>{locationData.details.name}</h2>
-          <h3>{locationData.details.country?.name || null}</h3>
+    <div className={styles.locationCardContainer} ref={outerContainer}>
+      <div className={styles.dropZone}></div>
+      <div
+        className={styles.locationCard}
+        onMouseDown={handleDrag}
+        ref={container}
+      >
+        <div className={styles.infoContainer}>
+          <div className={styles.locationDetails}>
+            <h2>{locationData.details.name}</h2>
+            <h3>{locationData.details.country?.name || null}</h3>
+          </div>
+          <div className={styles.locationDates}>
+            <h2>Dates:</h2>
+            <div className={styles.dateContainer}><span>Start:</span><span>{locationData.startDate ? new Date(locationData.startDate).toLocaleDateString('en-US') : null}</span></div>
+            <div className={styles.dateContainer}><span>End:</span><span>{locationData.endDate ? new Date(locationData.endDate).toLocaleDateString('en-US') : null}</span></div>
+          </div>
         </div>
-        <div className={styles.locationDates}>
-          <h2>Dates:</h2>
-          <div className={styles.dateContainer}><span>Start:</span><span>{locationData.startDate ? new Date(locationData.startDate).toLocaleDateString('en-US') : null}</span></div>
-          <div className={styles.dateContainer}><span>End:</span><span>{locationData.endDate ? new Date(locationData.endDate).toLocaleDateString('en-US') : null}</span></div>
+        {renderWarning()}
+        <div className={styles.controlContainer}>
+          <button type="button" onClick={enterLocationEdit}>Edit</button>
+          <button type="button" onClick={handleDelete}>Delete</button>
         </div>
       </div>
-      {renderWarning()}
-      <div className={styles.controlContainer}>
-        <button type="button" onClick={enterLocationEdit}>Edit</button>
-        <button type="button" onClick={handleDelete}>Delete</button>
-      </div>
+      <div className={styles.dropZone}></div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 .locationCard {
+  height: 160px;
   border-radius: 10px;
   border: none;
   background-color: var(--mellowMint);
@@ -48,4 +49,13 @@
 
 .warningIcon {
   filter: brightness(0) saturate(100%) invert(65%) sepia(22%) saturate(6074%) hue-rotate(320deg) brightness(100%) contrast(93%);
+}
+
+.dropZone {
+  height: 5px;
+}
+
+.locationCardContainer {
+  height: 170px;
+  transition: height 0.2s ease-in-out;
 }
