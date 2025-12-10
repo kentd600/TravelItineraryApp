@@ -1,5 +1,6 @@
 .locationCard {
-  height: 160px;
+  width: auto;
+  height: 170px;
   border-radius: 10px;
   border: none;
   background-color: var(--mellowMint);
@@ -28,6 +29,19 @@
   justify-content: flex-end;
 }
 
+.controlContainer > button {
+  font-size: 1.2rem;
+  background-color: var(--lime);
+}
+
+.editButton {
+  color: var(--compText);
+}
+
+.deleteButton {
+  color: var(--cautionText);
+}
+
 .dateContainer {
   display: flex;
   gap: 3px;
@@ -52,10 +66,10 @@
 }
 
 .dropZone {
-  height: 5px;
+  height: 0;
 }
 
 .locationCardContainer {
-  height: 170px;
+  height: 190px;
   transition: height 0.2s ease-in-out;
 }

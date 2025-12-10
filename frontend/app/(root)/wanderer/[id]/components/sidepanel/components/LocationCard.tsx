@@ -63,40 +63,45 @@ export default function LocationCard(props: LocationCardProps) {
   }
 
   function updateMouseCoords(evt: MouseEvent) {
-    mouseCoords.current = { x: evt.clientX, y: evt.clientY };
+    mouseCoords.current = { x: evt.pageX, y: evt.pageY };
   }
 
-  function animateDrag(timestamp: number, start: number[]) {
+  function animateDrag(timestamp: number, start: number[], yDiff: number) {
     if (!container.current) return;
-    const x = mouseCoords.current.x - start[0];
+    // const x = mouseCoords.current.x - start[0];
     const y = mouseCoords.current.y - start[1];
-    container.current.style.transform = `translateY(${y}px)`
+    container.current.style.top = `${mouseCoords.current.y + yDiff}px`;
+    // container.current.style.transform = `translateY(${y}px)`;
     if (dragging.current) {
-      requestAnimationFrame(timestamp => animateDrag(timestamp, start));
+      requestAnimationFrame(timestamp => animateDrag(timestamp, start, yDiff));
     } else {
-      container.current.style.transform = "translateY(0px)"
+      container.current.style.top = "0px"
       container.current.style.position = 'relative';
+      container.current.style.width = 'auto';
     }
   }
 
   function handleDrag(evt: React.MouseEvent<HTMLDivElement>) {
     if (!container.current || !outerContainer.current) return;
-    const start = [evt.clientX, evt.clientY];
-    mouseCoords.current = { x: evt.clientX, y: evt.clientY };
+    console.log(evt.currentTarget.getBoundingClientRect());
+    const { y } = evt.currentTarget.getBoundingClientRect();
+    const start = [evt.pageX, evt.pageY];
+    const mouseRectDiff = y - evt.pageY;
+    mouseCoords.current = { x: evt.pageX, y: evt.pageY };
     window.addEventListener('mouseup', handleDragEnd);
     window.addEventListener('mousemove', updateMouseCoords);
     dragging.current = true;
     const curWidth = container.current.clientWidth;
     container.current.style.zIndex = '9999';
-    container.current.style.position = 'absolute';
+    container.current.style.position = 'fixed';
     container.current.style.width = `${curWidth}px`;
     outerContainer.current.style.height = 'auto';
-    requestAnimationFrame(timestamp => animateDrag(timestamp, start));
+    requestAnimationFrame(timestamp => animateDrag(timestamp, start, mouseRectDiff));
   }
 
   function handleDragEnd() {
     if (!container.current || !outerContainer.current) return;
-    outerContainer.current.style.height = '170px';
+    outerContainer.current.style.height = '190px';
     container.current.style.zIndex = '1';
     container.current.style.position = 'relative';
     window.removeEventListener('mouseup', handleDragEnd);
@@ -125,8 +130,8 @@ export default function LocationCard(props: LocationCardProps) {
         </div>
         {renderWarning()}
         <div className={styles.controlContainer}>
-          <button type="button" onClick={enterLocationEdit}>Edit</button>
-          <button type="button" onClick={handleDelete}>Delete</button>
+          <button type="button" onClick={enterLocationEdit} className={`globalButtonStyle ${styles.editButton}`}>Edit</button>
+          <button type="button" onClick={handleDelete} className={`globalButtonStyle ${styles.deleteButton}`}>Delete</button>
         </div>
       </div>
       <div className={styles.dropZone}></div>
