@@ -26,17 +26,19 @@ export default function LocationEdit() {
   const [locationInvalid, setLocationInvalid] = useState(false);
   const [locationState, setLocationState] = useState({
     startDate: '',
-    endDate: ''
+    endDate: '',
+    notes: ''
   });
 
   useEffect(() => {
     setLocationState(prev => {
       if (!ctx?.wanderState.selectedLocation) return prev;
-      const { startDate, endDate, justAdded } = ctx?.wanderState.selectedLocation;
+      const { startDate, endDate, notes, justAdded } = ctx?.wanderState.selectedLocation;
       return {
         ...prev,
         startDate: justAdded ? '' : formatDate(new Date(startDate)),
-        endDate: justAdded ? '' : formatDate(new Date(endDate))
+        endDate: justAdded ? '' : formatDate(new Date(endDate)),
+        notes: notes
       }
     })
   }, [])
@@ -49,7 +51,7 @@ export default function LocationEdit() {
     }
   }, [locationState])
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleDateChange(e: ChangeEvent<HTMLInputElement>) {
     setLocationState(prev => {
         const temp = { ...prev, [e.target.id]: e.target.value };
         if (temp.startDate === '' || temp.endDate === '') {
@@ -78,10 +80,24 @@ export default function LocationEdit() {
     )
   }
 
+  function handelChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    setLocationState(prev => {
+      switch(e.target.id) {
+        case 'notes':
+          return {
+            ...prev,
+            notes: e.target.value
+          }
+        default:
+          return prev
+      }
+    })
+  }
+
   async function handleSave() {
     if (reqState) return;
     if (!ctx) return;
-    const { startDate, endDate } = locationState;
+    const { startDate, endDate, notes } = locationState;
     setReqState(true);
     const result = await ky.patch(`${process.env.NEXT_PUBLIC_WANDERER_API}/loc`, {
       credentials: 'include',
@@ -90,7 +106,8 @@ export default function LocationEdit() {
         _itinerary: ctx?.wanderState.currentItinerary,
         startDate,
         endDate,
-        justAdded: false
+        justAdded: false,
+        notes
       }
     })
     mutate(`${process.env.NEXT_PUBLIC_WANDERER_API}/itinerary/${ctx.wanderState.currentItinerary}`);
@@ -106,27 +123,40 @@ export default function LocationEdit() {
       <div className={styles.locationEditContainer}>
         <div className={styles.datePickerContainer}>
           <div className={styles.datePicker}>
-            <label htmlFor="startDate">Start Date</label>
+            <label htmlFor="startDate">Start Date:</label>
             <input 
               type="date"
               id='startDate'
               name='startDate'
-              onChange={handleChange}
+              onChange={handleDateChange}
+              className={styles.dateInput}
               value={locationState.startDate}
             />
           </div>
           <div className={styles.datePicker}>
-            <label htmlFor="endDate">End Date</label>
+            <label htmlFor="endDate">End Date:</label>
             <input
               type="date"
               id='endDate'
               name='endDate'
-              onChange={handleChange}
+              onChange={handleDateChange}
+              className={styles.dateInput}
               value={locationState.endDate}
             />
           </div>
         </div>
-        <button type='button' onClick={handleSave} disabled={locationInvalid}>Save</button>
+        <div className={styles.notesContainer}>
+          <label htmlFor="notes">Notes:</label>
+          <textarea name="notes" id="notes" className={styles.notesInput} value={locationState.notes} onChange={handelChange}></textarea>
+        </div>
+        <button
+          type='button'
+          onClick={handleSave}
+          disabled={locationInvalid}
+          className={`globalButtonStyle ${styles.saveButton}`}
+        >
+          Save
+        </button>
       </div>
     </>
 

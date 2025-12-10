@@ -14,16 +14,13 @@
   text-align: right;
 }
 
-.datePickerContainer {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-}
-
-.datePicker {
-  width: 100%;
+.datePickerContainer,
+.datePicker,
+.notesContainer {
   display: flex;
   flex-flow: column nowrap;
+  justify-content: space-evenly;
+  gap: 3px;
 }
 
 .locationEditContainer {
@@ -31,4 +28,43 @@
   flex-flow: column nowrap;
   justify-content: flex-end;
   padding: 2px;
+  gap: 3px;
+}
+
+.locationEditContainer label {
+  background-color: #4a646cb9;
+  color: var(--mellowMint);
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 5px;
+  user-select: none;
+}
+
+.saveButton {
+  background-color: var(--lime);
+  color: var(--compText);
+}
+
+.dateInput {
+  background-color: var(--mellowMint);
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.dateInput:focus {
+  outline: 1px solid var(--deepSpace);
+}
+
+.notesInput {
+  resize: vertical;
+  max-height: 30vh;
+  background-color: var(--mellowMint);
+  color: var(--compText);
+  outline: none;
+}
+
+.notesInput:focus {
+  outline: 1px solid var(--deepSpace);
 }

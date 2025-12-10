@@ -82,7 +82,7 @@ export default function LocationCard(props: LocationCardProps) {
   }
 
   function handleDrag(evt: React.MouseEvent<HTMLDivElement>) {
-    if (!container.current || !outerContainer.current) return;
+    if (!container.current || !outerContainer.current || evt.currentTarget instanceof HTMLButtonElement) return;
     console.log(evt.currentTarget.getBoundingClientRect());
     const { y } = evt.currentTarget.getBoundingClientRect();
     const start = [evt.pageX, evt.pageY];

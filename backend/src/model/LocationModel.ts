@@ -38,12 +38,14 @@ export interface Location {
   startDate: Date,
   endDate: Date,
   justAdded: Boolean,
+  notes: string
 }
 interface LocationUpdateArg {
   details?: Partial<LocationDetails>,
   startDate?: Date,
   endDate?: Date,
-  justAdded?: Boolean
+  justAdded?: Boolean,
+  notes?: string
 }
 
 const locationSchema: MongooseSchemaDef<Location> = {
@@ -51,7 +53,8 @@ const locationSchema: MongooseSchemaDef<Location> = {
   details: { type: locationDetailsSchema, required: true },
   startDate: { type: Date, required: false },
   endDate: { type: Date, required: false },
-  justAdded: { type: Boolean, required: true }
+  justAdded: { type: Boolean, required: true },
+  notes: { type: String, required: false }
 }
 
 export interface DbLocationResult extends Location {

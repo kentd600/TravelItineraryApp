@@ -16,5 +16,6 @@ export interface LocationDetails {
   },
   startDate: string
   endDate: string,
-  justAdded: Boolean
+  justAdded: Boolean,
+  notes: string
 }
