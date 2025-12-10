@@ -27,3 +27,28 @@
 .wandererHero {
   margin: 0 auto;
 }
+
+.bannersContainer {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: 10px 0;
+}
+
+.bannerLeft,
+.bannerRight {
+  height: 100px;
+  width: 45%;
+  background: var(--lightLime);
+  border: none;
+}
+
+.bannerLeft {
+  border-radius: 0 50px 50px 0;
+}
+
+.bannerRight {
+  border-radius: 50px 0 0 50px;
+}

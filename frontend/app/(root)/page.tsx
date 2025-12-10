@@ -28,6 +28,7 @@ export default function Home() {
   const lenisRef = useRef<LenisRef>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const logoRef = useRef<SVGSVGElement>(null);
+  const bannersContainerRef = useRef<HTMLDivElement>(null);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -116,8 +117,21 @@ export default function Home() {
         scrub: 1
       }
     });
-    tl.from(logoRef.current, { opacity: 0, scale: 0.5, transform: 'translateY(30vh)' })
+    tl.from(logoRef.current, { opacity: 70, scale: 0.5, transform: 'translateY(20vh)' })
+    // tl.from('.gsapBanner', {
+    //   scaleX: 0,
+    //   transformOrigin: 'left center'
+    // },"<")
     tl.to(logoRef.current, { duration: 0.3, opacity: 100, scale: 1, transform: 'translateY(0)' })
+    // tl.to('.gsapBanner', {
+    //   scaleX: 1,
+    //   duration: 1,
+    //   stagger: {
+    //     each: 1
+    //   }
+    // });
+    // console.log(gsap.utils.toArray('.gsapBanner'));
+    
   }, { dependencies: [isClient] })
 
   return (
@@ -136,6 +150,12 @@ export default function Home() {
               ref={logoRef}
             />}
           </div>
+          {/* <div className={styles.bannersContainer} ref={bannersContainerRef} style={{top: Math.min((window.innerWidth - 100) * 0.6, 600)}}>
+            <div className={`${styles.bannerLeft} gsapBanner`}></div>
+            <div className={`${styles.bannerRight} gsapBanner`}></div>
+            <div className={`${styles.bannerLeft} gsapBanner`}></div>
+            <div className={`${styles.bannerRight} gsapBanner`}></div>
+          </div> */}
           <div id='videoEnd' className={styles.videoEnd}></div>
         </section>
       </ReactLenis>
